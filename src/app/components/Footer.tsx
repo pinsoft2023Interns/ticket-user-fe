@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import React from "react";
-
-function Footer() {
-  return <div>Footer</div>;
-}
-
-export default Footer;
-=======
 const navigation = {
   solutions: [
     { name: "Otobüs Seferleri", href: "#" },
@@ -213,4 +204,3 @@ export default function Footer() {
     </footer>
   );
 }
->>>>>>> eaef940ab097700635f9b20878a01a80b7b6f53b
