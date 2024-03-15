@@ -3,20 +3,24 @@
 import { Fragment, useState } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import Datepicker from "react-tailwindcss-datepicker";
 
 const people = [
-  { id: 1, name: "Wade Cooper" },
-  { id: 2, name: "Arlene Mccoy" },
-  { id: 3, name: "Devon Webb" },
-  { id: 4, name: "Tom Cook" },
-  { id: 5, name: "Tanya Fox" },
-  { id: 6, name: "Hellen Schmidt" },
+  { id: 1, name: "İstanbul" },
+  { id: 2, name: "Ankara" },
+  { id: 3, name: "Tekirdağ" },
+  { id: 4, name: "İzmir" },
+  { id: 5, name: "Eskişehir" },
+  { id: 6, name: "Afyonkarahisar" },
 ];
 
 export default function Example() {
   const [selected, setSelected] = useState(people[0]);
   const [query, setQuery] = useState("");
-
+  const [value, setValue] = useState({
+    startDate: null,
+    endDate: null,
+  });
   const filteredPeople =
     query === ""
       ? people
@@ -27,16 +31,21 @@ export default function Example() {
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
 
+  const handleValueChange = (newValue) => {
+    console.log("newValue:", newValue);
+    setValue(newValue);
+  };
+
   return (
-    <main>
-      <div className="flex gap-3">
+    <>
+      <div className="flex gap-3 justify-center bg- py-56 bg-[url('https://images.pexels.com/photos/315938/pexels-photo-315938.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')] bg-cover">
         <div className="w-72">
           <Combobox value={selected} onChange={setSelected}>
-            <div className="relative mt-1">
+            <div className="relative">
               <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
                 <Combobox.Input
-                  className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-                  // displayValue={(person) => person.name}
+                  className="w-full border-none py-4 pl-3 pr-10 text-lg leading-5 text-gray-900 focus:ring-0 h-full"
+                  displayValue={(person) => person.name}
                   onChange={(event) => setQuery(event.target.value)}
                 />
                 <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -102,7 +111,7 @@ export default function Example() {
         </div>
         <button>
           <svg
-            className="w-6 h-6 text-white"
+            className="w-10 h-10 text-white"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -121,11 +130,11 @@ export default function Example() {
         </button>
         <div className="w-72">
           <Combobox value={selected} onChange={setSelected}>
-            <div className="relative mt-1">
+            <div className="relative">
               <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
                 <Combobox.Input
-                  className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-                  // displayValue={(person) => person.name}
+                  className="w-full border-none py-4 pl-3 pr-10 text-lg leading-5 text-gray-900 focus:ring-0 h-full"
+                  displayValue={(person) => person.name}
                   onChange={(event) => setQuery(event.target.value)}
                 />
                 <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -189,7 +198,22 @@ export default function Example() {
             </div>
           </Combobox>
         </div>
+        <div>
+          <Datepicker
+            i18n={"tr"}
+            asSingle={true}
+            value={value}
+            onChange={handleValueChange}
+            inputClassName="w-full border-none py-4 pl-3 pr-10 text-lg leading-5 h-full text-gray-900 focus:ring-0 rounded-md"
+          />
+        </div>
+        <button
+          type="button"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none "
+        >
+          Otobüs Bileti Bul
+        </button>
       </div>
-    </main>
+    </>
   );
 }
