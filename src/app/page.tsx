@@ -12,6 +12,7 @@ const citys = [
   { id: 4, name: "İzmir" },
   { id: 5, name: "Eskişehir" },
   { id: 6, name: "Afyonkarahisar" },
+  { id: 7, name: "Bursa" },
 ];
 
 export default function Example() {
