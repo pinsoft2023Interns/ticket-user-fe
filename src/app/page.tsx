@@ -307,7 +307,7 @@ export default function Example() {
               fill="url(#83fd4e5a-9d52-42fc-97b6-718e5d7ee527)"
             />
           </svg>
-          <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:flex lg:items-center lg:gap-x-10 lg:px-8 lg:py-40">
+          <div className="mx-auto max-w-7xl px-6 pb-24 sm:pb-32 lg:flex lg:items-center lg:gap-x-10 lg:px-8 lg:pb-40">
             <div className="mx-auto max-w-2xl lg:mx-0 lg:flex-auto">
               <h1 className="mt-10 max-w-full text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
                 Sana özel kampanyalar, fırsatlar ve daha fazlası Biletim
@@ -403,7 +403,7 @@ export default function Example() {
           </div>
         </div>
       </div>
-      <div className="overflow-hidden bg-white py-32">
+      <div className="overflow-hidden bg-white">
         <div className="mx-auto max-w-7xl px-6 lg:flex lg:px-8">
           <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-12 gap-y-16 lg:mx-0 lg:min-w-full lg:max-w-none lg:flex-none lg:gap-y-8">
             <div className="lg:col-end-1 lg:w-full lg:max-w-lg lg:pb-8">
