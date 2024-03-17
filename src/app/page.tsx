@@ -220,7 +220,7 @@ export default function Example() {
                             className={({ active }) =>
                               `relative cursor-default select-none py-2 pl-10 pr-4 ${
                                 active
-                                  ? "bg-teal-600 text-white"
+                                  ? "bg-indigo-600 text-white"
                                   : "text-gray-900"
                               }`
                             }
@@ -230,23 +230,11 @@ export default function Example() {
                               <>
                                 <span
                                   className={`block truncate ${
-                                    selectedTo ? "font-medium" : "font-normal"
+                                    selectedFrom ? "font-medium" : "font-normal"
                                   }`}
                                 >
                                   {city.name}
                                 </span>
-                                {selectedTo ? (
-                                  <span
-                                    className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                                      active ? "text-white" : "text-teal-600"
-                                    }`}
-                                  >
-                                    <CheckIcon
-                                      className="h-5 w-5"
-                                      aria-hidden="true"
-                                    />
-                                  </span>
-                                ) : null}
                               </>
                             )}
                           </Combobox.Option>
