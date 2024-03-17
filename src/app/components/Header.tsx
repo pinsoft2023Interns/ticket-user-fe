@@ -15,6 +15,10 @@ export default function Header() {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const handleLogin = () => {
+    router.push("auth/login");
+  };
+
   return (
     <header className="bg-white">
       <nav
@@ -45,6 +49,7 @@ export default function Header() {
         <div className="flex flex-1 items-center justify-end gap-x-6">
           <a
             href="#"
+            onClick={handleLogin}
             className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900"
           >
             Giriş Yap
