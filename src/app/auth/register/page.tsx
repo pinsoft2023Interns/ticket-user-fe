@@ -1,6 +1,41 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import api from "../../../../intercepter";
 
 function Register() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    day: "",
+    month: "",
+    year: "",
+    agreedToTerms: false,
+  });
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await api.post("/register", formData);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
+  };
+
+  const years: number[] = [];
+  for (let year = 1990; year <= 2021; year++) {
+    years.push(year);
+  }
+
   return (
     <section className="bg-[url('https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-no-repeat bg-cover bg-center bg-gray-700 bg-blend-multiply bg-opacity-60">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen pt:mt-0">
@@ -19,7 +54,7 @@ function Register() {
             <h2 className="text-xl font-bold leading-tight tracking-tight text-center text-gray-900 md:text-2xl dark:text-white">
               Hesap Oluşturun
             </h2>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label
                   htmlFor="email"
@@ -29,6 +64,7 @@ function Register() {
                 </label>
                 <input
                   type="email"
+                  onChange={handleChange}
                   name="email"
                   id="email"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
@@ -38,31 +74,33 @@ function Register() {
               </div>
               <div>
                 <label
-                  htmlFor="username"
+                  htmlFor="password"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Şifre
                 </label>
                 <input
-                  type="text"
-                  name="username"
-                  id="username"
-                  placeholder="Pinsoft"
+                  type="password"
+                  onChange={handleChange}
+                  name="password"
+                  id="password"
+                  placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                   required
                 />
               </div>
               <div>
                 <label
-                  htmlFor="confirm-password"
+                  htmlFor="confirmPassword"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Şifre Onayla
                 </label>
                 <input
-                  type="confirm-password"
-                  name="confirm-password"
-                  id="confirm-password"
+                  type="password"
+                  onChange={handleChange}
+                  name="confirmPassword"
+                  id="confirmPassword"
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                   required
@@ -79,6 +117,8 @@ function Register() {
                     </label>
                     <select
                       id="day"
+                      onChange={handleChange}
+                      name="day"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
                       <option disabled selected hidden>
@@ -100,6 +140,8 @@ function Register() {
                     </label>
                     <select
                       id="month"
+                      onChange={handleChange}
+                      name="month"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
                       <option disabled selected hidden>
@@ -121,36 +163,34 @@ function Register() {
                     </label>
                     <select
                       id="year"
+                      name="year"
+                      onChange={handleChange}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
                       <option disabled selected hidden>
                         Yıl
                       </option>
-                      <option value="1990">1990</option>
-                      <option value="1991">1991</option>
-                      <option value="1992">1992</option>
-                      <option value="1993">1993</option>
-                      <option value="1994">1994</option>
-                      <option value="1995">1995</option>
-                      <option value="1996">1996</option>
-                      <option value="1997">1997</option>
+                      {years.map((year) => (
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
               </div>
               <div className="flex items-start">
-                <div className="flex items-center h-5">
-                  <input
-                    id="newsletter"
-                    aria-describedby="newsletter"
-                    type="checkbox"
-                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                    required
-                  />
-                </div>
+                <input
+                  id="agreedToTerms"
+                  type="checkbox"
+                  onChange={handleChange}
+                  name="agreedToTerms"
+                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                  required
+                />
                 <div className="ml-3 text-sm">
                   <label
-                    htmlFor="newsletter"
+                    htmlFor="agreedToTerms"
                     className="font-light text-gray-500 dark:text-gray-300"
                   >
                     Kullanım{" "}
@@ -164,7 +204,7 @@ function Register() {
                 </div>
               </div>
               <button
-                type="button"
+                type="submit"
                 className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-full"
               >
                 Hesap Oluştur
