@@ -21,7 +21,7 @@ const citys = [
   { id: 3, name: "Tekirdağ" },
   { id: 4, name: "İzmir" },
   { id: 5, name: "Eskişehir" },
-  { id: 6, name: "Afyonkarahisar" },
+  { id: 6, name: "Afyonkarahisar " },
   { id: 7, name: "Bursa" },
 ];
 
@@ -145,7 +145,9 @@ export default function Example() {
                               <>
                                 <span
                                   className={`block truncate ${
-                                    selectedFrom ? "font-medium" : "font-normal"
+                                    selectedFrom
+                                      ? "font-medium "
+                                      : "font-normal"
                                   }`}
                                 >
                                   {city.name}
