@@ -1,7 +1,12 @@
 import React from "react";
+import SeatMap from "../components/SeatMap";
 
 function SeatScreen(): JSX.Element {
-  return <div className="flex items-center justify-center h-[600px]"></div>;
+  return (
+    <>
+      <SeatMap />
+    </>
+  );
 }
 
 export default SeatScreen;
