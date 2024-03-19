@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 import Header from "./components/Header";
-import SeatScreen from "./seatScreen/page";
+import SeatScreen from "./seatscreen/page";
 import Footer from "./components/Footer";
 import TicketScreen from "./auth/ticketScreen/page";
 
@@ -30,8 +30,8 @@ export default function RootLayout({
         <Header />
         <TicketScreen />
         {/* <SeatScreen /> */}
-        {/* <main>{children}</main> */}
-        {/* <Footer /> */}
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );
