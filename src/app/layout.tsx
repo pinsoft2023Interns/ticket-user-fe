@@ -30,8 +30,8 @@ export default function RootLayout({
         <Header />
         <TicketScreen />
         {/* <SeatScreen /> */}
-        <main>{children}</main>
-        <Footer />
+        {/* <main>{children}</main> */}
+        {/* <Footer /> */}
       </body>
     </html>
   );
