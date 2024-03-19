@@ -10,11 +10,11 @@ function SeatMap({ seatInfo }) {
 
   return (
     <div className="flex justify-center">
-      <div className="inline-flex flex-col  gap-12 ">
+      <div className="inline-flex flex-col  gap-12 overflow-auto">
         {seatInfo.map((item, index) => (
           <div
             key={index}
-            className="flex gap-8 border rounded-2xl py-4 px-4  justify-between "
+            className="flex gap-8 border rounded-2xl py-4 px-4  justify-between w-max"
           >
             <div className="flex flex-col justify-between items-end mr-4">
               <span className="text-sm border-x border-b -mt-4 px-4 ml-2">
