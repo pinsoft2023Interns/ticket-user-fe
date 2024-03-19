@@ -1,16 +1,30 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import SeatMap from "../../components/SeatMap";
 
 function TicketScreen() {
   const [selectedSeat, setSelectedSeat] = useState(false);
   const [selectedSeatImage, setSelectedSeatImage] = useState("");
-  const [selectedSeatData, setSelectedSeatData] = useState(null);
+  const [selectedSeatData, setSelectedSeatData] = useState(0);
+  const [showSeatMap, setShowSeatMap] = useState(false);
+
+  const seatInfo = [
+    { seatLength: 38, busType: "2+1" },
+    //   { seatLength: 48, busType: "2+2" },
+    //   { seatLength: 41, busType: "2+1" },
+  ];
 
   const handleSeatSelection = (ticket) => {
     setSelectedSeat(!selectedSeat);
-    setSelectedSeatImage(ticket.imageURL);
-    setSelectedSeatData(ticket);
+    setSelectedSeatData(ticket.id);
+    console.log("ticket.id", ticket);
+    console.log("selectedSeatData", selectedSeatData);
+    setShowSeatMap(true);
   };
+
+  useEffect(() => {
+    console.log("selectedSeatData", selectedSeatData);
+  }, [selectedSeatData]);
 
   const busSeats = Array.from({ length: 45 }, (_, index) => index + 1);
 
@@ -35,8 +49,8 @@ function TicketScreen() {
 
   return (
     <div>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg flex justify-center items-center">
+        <table className="w-[80%] text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
@@ -73,11 +87,12 @@ function TicketScreen() {
                     </button>
                   </td>
                 </tr>
-                {selectedSeat ? (
+                {selectedSeat && selectedSeatData === ticket.id ? (
                   <tr>
                     <td colSpan={5}>
                       <div className="bg-white p-4 border border-gray-300 dark:border-gray-700 shadow-lg">
-                        <img src={selectedSeatImage} alt="Selected Seat" />
+                        <div className="cursor-pointerx">Sefer detayı</div>
+                        <SeatMap seatInfo={seatInfo} />
                         <button
                           onClick={() => setSelectedSeat(false)}
                           className="block mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
