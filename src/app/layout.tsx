@@ -29,7 +29,7 @@ export default function RootLayout({
         <Header />
         {/* <SeatScreen /> */}
         <main>{children}</main>
-        {/* <Footer /> */}
+        <Footer />
       </body>
     </html>
   );
