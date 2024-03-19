@@ -4,7 +4,7 @@ import api from "../../../../intercepter";
 
 function Login() {
   const [formData, setFormData] = useState({
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -47,19 +47,19 @@ function Login() {
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label
-                  htmlFor="email"
+                  htmlFor="username"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  E-mail
+                  Kullanıcı Adı
                 </label>
                 <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  value={formData.email}
+                  type="username"
+                  name="username"
+                  id="username"
+                  value={formData.username}
                   onChange={handleChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                  placeholder="pinsoft@pinsoft.com"
+                  placeholder="pinsoft"
                   required
                 />
               </div>
