@@ -103,7 +103,8 @@ function TicketScreen() {
                 <React.Fragment key={ticket.id}>
                   <tr
                     onClick={() => handleSeatSelection(ticket)}
-                    className="odd:bg-white cursor-pointer odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+                    className="odd:bg-white h-[40px] cursor-pointer gap-[50px] odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+                    style={{ backgroundColor: "blue", height: "60px" }}
                   >
                     <td className="px-6 py-4">{ticket.companyLogo}</td>
                     <td className="px-6 py-4">{ticket.departureTime}</td>
@@ -113,14 +114,19 @@ function TicketScreen() {
                       <button
                         onClick={() => handleSeatSelection(ticket)}
                         className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                        style={{ color: "red" }}
                       >
                         Koltuk Seç
                       </button>
                     </td>
                   </tr>
+
                   {selectedSeat && selectedSeatData === ticket.id ? (
                     <tr>
-                      <td colSpan={5}>
+                      <td
+                        className="h-96 bg-gray-200 dark:bg-gray-800"
+                        colSpan={5}
+                      >
                         <div className="bg-white p-4 border border-gray-300 dark:border-gray-700 shadow-lg">
                           <div
                             onClick={() => setIsPopupActive(true)}
