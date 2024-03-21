@@ -77,89 +77,86 @@ function TicketScreen() {
   return (
     <>
       <div>
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg flex justify-center items-center">
-          <table className="w-[85%] text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" className="px-6 py-3">
-                  Firma Logosu
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Sefer Saati
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Otobüsteki Koltuk Düzeni
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Bilet Fiyatı
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Koltuk Seç
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {ticketData.map((ticket) => (
-                <React.Fragment key={ticket.id}>
-                  <tr
-                    onClick={() => handleSeatSelection(ticket)}
-                    className="odd:bg-white h-[40px] cursor-pointer gap-[50px] odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
-                    style={{ backgroundColor: "blue", height: "60px" }}
-                  >
-                    <td className="px-6 py-4">{ticket.companyLogo}</td>
-                    <td className="px-6 py-4">{ticket.departureTime}</td>
-                    <td className="px-6 py-4">{ticket.seatArrangement}</td>
-                    <td className="px-6 py-4">{ticket.price}</td>
-                    <td className="px-6 py-4">
-                      <button
-                        onClick={() => handleSeatSelection(ticket)}
-                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                        style={{ color: "red" }}
-                      >
-                        Koltuk Seç
-                      </button>
-                    </td>
-                  </tr>
-
-                  {selectedSeat && selectedSeatData === ticket.id ? (
-                    <tr>
-                      <td
-                        className="h-96 bg-gray-200 dark:bg-gray-800"
-                        colSpan={5}
-                      >
-                        <div className="bg-white p-4 border border-gray-300 dark:border-gray-700 shadow-lg">
-                          <div
-                            onClick={() => setIsPopupActive(true)}
-                            className="cursor-pointer"
-                          >
-                            Sefer detayı
-                          </div>
-                          <div className="flex items-center justify-between ">
-                            <SeatMap seatInfo={seatInfo} />
-                            <div className="flex items-center justify-between flex-col gap [20px]  dark:text-blue-500 ">
-                              <p>Lütfen Koltuk Seçiniz</p>
-                              <button
-                                type="button"
-                                className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                              >
-                                Onayla ve devam et
-                              </button>
-                            </div>
-                          </div>
-                          <button
-                            onClick={() => setSelectedSeat(false)}
-                            className="block mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                          >
-                            Kapat
-                          </button>
-                        </div>
+        <div className="relative mx-auto flex max-w-7xl items-center justify-center gap-x-6 py-6 lg:py-8 ">
+          <div className="flex w-full rounded-xl border  m-2 overflow-auto">
+            <table className="text-sm  text-left rtl:text-right text-gray-500 w-full">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+                <tr className="bg-indigo-600 text-white">
+                  <th scope="col" className="px-6 py-3">
+                    Firma Logosu
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Sefer Saati
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Otobüsteki Koltuk Düzeni
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Bilet Fiyatı
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Koltuk Seç
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {ticketData.map((ticket) => (
+                  <React.Fragment key={ticket.id}>
+                    <tr
+                      onClick={() => handleSeatSelection(ticket)}
+                      className=" h-16 cursor-pointer gap-14 text-base  border-b bg-white"
+                    >
+                      <td className="px-6 py-4">{ticket.companyLogo}</td>
+                      <td className="px-6 py-4">{ticket.departureTime}</td>
+                      <td className="px-6 py-4">{ticket.seatArrangement}</td>
+                      <td className="px-6 py-4">{ticket.price}</td>
+                      <td className="px-6 py-4">
+                        <button
+                          onClick={() => handleSeatSelection(ticket)}
+                          className="font-medium text-indigo-600  hover:underline"
+                        >
+                          Koltuk Seç
+                        </button>
                       </td>
                     </tr>
-                  ) : null}
-                </React.Fragment>
-              ))}
-            </tbody>
-          </table>
+
+                    {selectedSeat && selectedSeatData === ticket.id ? (
+                      <tr>
+                        <td className="h-96 bg-gray-200 " colSpan={5}>
+                          <div className="bg-white p-4 border border-gray-300 shadow-lg">
+                            <div
+                              onClick={() => setIsPopupActive(true)}
+                              className="cursor-pointer"
+                            >
+                              Sefer detayı
+                            </div>
+                            <div className="flex items-center justify-between ">
+                              <SeatMap seatInfo={seatInfo} />
+                              <div className="flex items-center justify-between flex-col gap [20px]   ">
+                                <p>Lütfen Koltuk Seçiniz</p>
+                                <button
+                                  type="button"
+                                  className="focus:outline-none text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                                >
+                                  Onayla ve devam et
+                                </button>
+                              </div>
+                            </div>
+                            <button
+                              onClick={() => setSelectedSeat(false)}
+                              className="block mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                            >
+                              Kapat
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ) : null}
+                  </React.Fragment>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       {isPopupActive && (
