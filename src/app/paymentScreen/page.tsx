@@ -1,14 +1,16 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import VisaCard from "./visa";
+import MasterCard from "./master";
 
 function PaymentScreen() {
-  const [cardNumber, setCardNumber] = useState("4256 4256 4256 4256");
+  const [cardNumber, setCardNumber] = useState("5256 4256 4256 4256");
   const [expDate, setExpDate] = useState("12/24");
   const [ccv, setCcv] = useState("");
   const [cardName, setCardName] = useState("John Doe");
   const [isValid, setIsValid] = useState(false);
   const [isBackVisible, setIsBackVisible] = useState(false);
+  const [isVisaCard, setIsVisaCard] = useState(true);
   const [cardImage, setCardImage] = useState(
     "https://www.computop-paygate.com/Templates/imagesaboutYou_desktop/images/svg-cards/card-visa-front.png"
   );
@@ -27,11 +29,13 @@ function PaymentScreen() {
     setCardNumber(formattedInput || "");
 
     if (input.charAt(0) === "4") {
-      setCardImage(
-        "https://www.computop-paygate.com/Templates/imagesaboutYou_desktop/images/svg-cards/card-visa-front.png"
-      );
+      // setCardImage(
+      //   "https://www.computop-paygate.com/Templates/imagesaboutYou_desktop/images/svg-cards/card-visa-front.png"
+      // );
+      setIsVisaCard(true);
     } else if (input.charAt(0) === "5") {
-      setCardImage("https://i.ibb.co/LPLv5MD/Payment-Card-01.jpg");
+      // setCardImage("https://i.ibb.co/LPLv5MD/Payment-Card-01.jpg");
+      setIsVisaCard(false);
     }
   };
 
@@ -62,6 +66,7 @@ function PaymentScreen() {
   };
 
   useEffect(() => {
+    setIsVisaCard(cardNumber.charAt(0) === "4");
     setIsValid(cardNumber.trim() !== "");
   }, [cardNumber]);
 
@@ -70,15 +75,27 @@ function PaymentScreen() {
       <div className="m-4">
         <div className="credit-card w-1/3 shadow-lg mx-auto rounded-xl bg-white relative">
           <div className="flex flex-col justify-center items-center">
-            <VisaCard
-              isBackVisible={isBackVisible}
-              cardImage={cardImage}
-              cardNumber={cardNumber}
-              cardName={cardName}
-              expDate={expDate}
-              ccv={ccv}
-            />
+            {isVisaCard ? (
+              <VisaCard
+                isBackVisible={isBackVisible}
+                cardImage={cardImage}
+                cardNumber={cardNumber}
+                cardName={cardName}
+                expDate={expDate}
+                ccv={ccv}
+              />
+            ) : (
+              <MasterCard
+                isBackVisible={isBackVisible}
+                cardImage={cardImage}
+                cardNumber={cardNumber}
+                cardName={cardName}
+                expDate={expDate}
+                ccv={ccv}
+              />
+            )}
           </div>
+
           <div className="mt-4 p-4">
             <h1 className="text-xl font-semibold text-gray-700 text-center">
               Card payment
