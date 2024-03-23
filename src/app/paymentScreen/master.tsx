@@ -1,13 +1,6 @@
 import React from "react";
 
-function MasterCard({
-  isBackVisible,
-  cardImage,
-  cardNumber,
-  cardName,
-  expDate,
-  ccv,
-}) {
+function MasterCard({ isBackVisible, cardNumber, cardName, expDate, ccv }) {
   return (
     <>
       <div className={`relative ${isBackVisible ? "rotate-180" : ""}`}>

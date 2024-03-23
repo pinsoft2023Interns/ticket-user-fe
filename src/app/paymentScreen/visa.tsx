@@ -1,14 +1,7 @@
 "use client";
 import React from "react";
 
-function VisaCard({
-  isBackVisible,
-  cardImage,
-  cardNumber,
-  cardName,
-  expDate,
-  ccv,
-}) {
+function VisaCard({ isBackVisible, cardNumber, cardName, expDate, ccv }) {
   return (
     <>
       <div className={`relative ${isBackVisible ? "rotate-180" : ""}`}>

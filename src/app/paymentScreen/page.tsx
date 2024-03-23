@@ -11,9 +11,6 @@ function PaymentScreen() {
   const [isValid, setIsValid] = useState(false);
   const [isBackVisible, setIsBackVisible] = useState(false);
   const [isVisaCard, setIsVisaCard] = useState(true);
-  const [cardImage, setCardImage] = useState(
-    "https://www.computop-paygate.com/Templates/imagesaboutYou_desktop/images/svg-cards/card-visa-front.png"
-  );
 
   const handleCardNumberChange = (event) => {
     let input = event.target.value.replace(/\D/g, "");
@@ -29,12 +26,8 @@ function PaymentScreen() {
     setCardNumber(formattedInput || "");
 
     if (input.charAt(0) === "4") {
-      // setCardImage(
-      //   "https://www.computop-paygate.com/Templates/imagesaboutYou_desktop/images/svg-cards/card-visa-front.png"
-      // );
       setIsVisaCard(true);
     } else if (input.charAt(0) === "5") {
-      // setCardImage("https://i.ibb.co/LPLv5MD/Payment-Card-01.jpg");
       setIsVisaCard(false);
     }
   };
@@ -78,7 +71,6 @@ function PaymentScreen() {
             {isVisaCard ? (
               <VisaCard
                 isBackVisible={isBackVisible}
-                cardImage={cardImage}
                 cardNumber={cardNumber}
                 cardName={cardName}
                 expDate={expDate}
@@ -87,7 +79,6 @@ function PaymentScreen() {
             ) : (
               <MasterCard
                 isBackVisible={isBackVisible}
-                cardImage={cardImage}
                 cardNumber={cardNumber}
                 cardName={cardName}
                 expDate={expDate}
