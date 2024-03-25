@@ -4,7 +4,7 @@ import VisaCard from "./visa";
 import MasterCard from "./master";
 
 function PaymentScreen() {
-  const [cardNumber, setCardNumber] = useState("5256 4256 4256 4256");
+  const [cardNumber, setCardNumber] = useState("4256 4256 4256 4256");
   const [expDate, setExpDate] = useState("12/24");
   const [ccv, setCcv] = useState("");
   const [cardName, setCardName] = useState("John Doe");
@@ -23,20 +23,35 @@ function PaymentScreen() {
     if (formattedInput) {
       formattedInput = formattedInput.join(" ");
     }
-    setCardNumber(formattedInput || "");
 
     if (input.charAt(0) === "4") {
       setIsVisaCard(true);
     } else if (input.charAt(0) === "5") {
       setIsVisaCard(false);
+    } else if (input !== "") {
+      setIsVisaCard(true);
+      alert("Böyle bir kart tanımı yoktur !");
+      return;
     }
+    setCardNumber(formattedInput || "");
   };
 
   const handleExpDateChange = (event) => {
-    const input = event.target.value.replace(/\D/g, "");
+    let input = event.target.value.replace(/\D/g, "");
+    if (input.length > 4) {
+      input = input.slice(0, 4);
+    }
     let formattedInput = input.match(/.{1,2}/g);
     if (formattedInput) {
       formattedInput = formattedInput.join("/");
+    }
+
+    if (formattedInput) {
+      const [month, year] = formattedInput.split("/");
+      if (parseInt(month) > 12) {
+        console.log(`12'den büyük bir değer`);
+        return;
+      }
     }
     setExpDate(formattedInput || "");
   };
@@ -111,18 +126,28 @@ function PaymentScreen() {
                 />
               </div>
               <div className="my-3 flex flex-col">
-                <div className="mb-2">
+                <div className="flex justify-between mb-2">
                   <label htmlFor="" className="text-gray-700">
                     Expired
                   </label>
+                  <label htmlFor="" className="text-gray-700">
+                    Son Kullanım Tarihi
+                  </label>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <div className="flex grid-cols-2 sm:grid-cols-4 gap-2 justify-between  ">
                   <input
                     type="text"
-                    className="block w-full px-5 py-2 border rounded-lg bg-white shadow-lg placeholder-gray-400 text-gray-700 focus:ring focus:outline-none"
+                    className="block w-3/4 px-5 py-2 border rounded-lg bg-white shadow-lg placeholder-gray-400 text-gray-700 focus:ring focus:outline-none"
                     placeholder="Security code"
                     value={ccv}
                     onChange={handleCcvChange}
+                  />
+                  <input
+                    type="text"
+                    className="block w-3/4 px-5 py-2 border rounded-lg bg-white shadow-lg placeholder-gray-400 text-gray-700 focus:ring focus:outline-none"
+                    placeholder="Expiration Date (MM/YY)"
+                    value={expDate}
+                    onChange={handleExpDateChange}
                   />
                 </div>
               </div>

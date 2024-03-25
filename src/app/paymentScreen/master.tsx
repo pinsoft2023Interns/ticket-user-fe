@@ -3,10 +3,10 @@ import React from "react";
 function MasterCard({ isBackVisible, cardNumber, cardName, expDate, ccv }) {
   return (
     <>
-      <div className={`relative ${isBackVisible ? "rotate-180" : ""}`}>
+      <div className={`relative w-11/12  ${isBackVisible ? "rotate-180" : ""}`}>
         <svg
           aria-hidden="true"
-          className="h-10 w-13 absolute top-3 left-3/4 me-2 -ms-1 "
+          className="h-13  absolute top-8 left-3/4  me-2 -ms-1 "
           viewBox="0 0 601 360"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,7 @@ function MasterCard({ isBackVisible, cardNumber, cardName, expDate, ccv }) {
           src="https://i.ibb.co/LPLv5MD/Payment-Card-01.jpg"
           alt="front credit card"
         />
-        <div className="front bg-transparent bottom-4 text-lg w-full text-white px-12 absolute left-0 bottom-12">
+        <div className="front bg-transparent bottom-8 text-lg w-full text-white px-12 absolute left-0 ">
           <p className="number mb-5 sm:text-xl">
             {cardNumber !== "" ? cardNumber : "0000 0000 0000 0000"}
           </p>
@@ -56,11 +56,11 @@ function MasterCard({ isBackVisible, cardNumber, cardName, expDate, ccv }) {
         </div>
         <div
           className={`back bg-transparent text-lg w-full text-white px-12 absolute left-0 bottom-12 rotate-180 transition-transform ${
-            isBackVisible ? "opacity-100" : "opacity-0"
+            isBackVisible ? "opacity-100 " : "opacity-0"
           } z-10`}
         >
           <div className="flex w-full absolute items-center justify-end">
-            <div className="w-full bg-black h-10 absolute top-6"></div>
+            <div className="w-full bg-black h-14 absolute top-8"></div>
             <img
               className="w-full h-auto rounded-2xl"
               src="https://i.ibb.co/LPLv5MD/Payment-Card-01.jpg"
