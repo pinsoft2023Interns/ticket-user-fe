@@ -29,11 +29,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Header />
         {/* <TicketScreen /> */}
-<<<<<<< HEAD
-        <PaymentScreen />
-=======
         {/* <PaymentScreen /> */}
->>>>>>> 303bc2e03940954df78e72f23728cb2b115a4dd8
         {/* <SeatScreen /> */}
         <main>{children}</main>
         {/* <Footer /> */}
