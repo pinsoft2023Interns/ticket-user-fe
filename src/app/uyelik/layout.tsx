@@ -19,7 +19,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="grid grid-cols-12 mx-auto max-w-7xl items-center justify-between gap-x-6 p-6 lg:px-8">
-      <div className="w-full flex-none col-span-3 ">
+      <div className="w-full flex-none col-span-3 hidden lg:flex">
         <nav className="flex flex-1 flex-col" aria-label="Sidebar">
           <ul role="list" className="-mx-2 space-y-1">
             {navigation.map((item) => (
