@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 
 const navigation = [
   { name: "Anasayfa", href: "#" },
@@ -11,6 +12,7 @@ const navigation = [
 ];
 
 export default function Header() {
+  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -43,12 +45,14 @@ export default function Header() {
         <div className="flex flex-1 items-center justify-end gap-x-6">
           <a
             href="#"
+            onClick={() => router.push("auth/login")}
             className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900"
           >
             Giriş Yap
           </a>
           <a
             href="#"
+            onClick={() => router.push("auth/register")}
             className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Kayıt Ol
