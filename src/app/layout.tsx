@@ -33,7 +33,7 @@ export default function RootLayout({
         {/* <PaymentScreen /> */}
         {/* <SeatScreen /> */}
         <main>{children}</main>
-        {/* <Footer /> */}
+        <Footer />
       </body>
     </html>
   );
