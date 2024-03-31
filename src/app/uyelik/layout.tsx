@@ -18,10 +18,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
+<<<<<<< HEAD
     <div className="grid grid-cols-12 sticky top-0 mx-auto max-w-8xl items-flex end-0 bg-red gap-x-6 p-6 lg:px-8">
       <div className="w-full col-span-3 lg:flex sticky top-0 ">
         <nav className="flex flex-1 flex-col sticky top-0" aria-label="Sidebar">
           <ul role="list" className="-mx-2 space-y-1 sticky top-0">
+=======
+    <div className="grid grid-cols-12 mx-auto max-w-7xl justify-between gap-x-6  lg:px-8">
+      <div className=" flex-none lg:col-span-2 hidden lg:flex col-span-12">
+        <nav className="flex flex-1 flex-col" aria-label="Sidebar">
+          <ul role="list" className="-mx-2 space-y-1">
+>>>>>>> f181dc6007d57a97e5025047673dcdaabb70f344
             {navigation.map((item) => (
               <li key={item.name}>
                 <Link
@@ -40,7 +47,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </ul>
         </nav>
       </div>
+<<<<<<< HEAD
       <div className="flex-grow p-6 md:overflow-y-auto col-span-9  ">
+=======
+      <div className="flex-grow  md:overflow-y-auto lg:col-span-10 col-span-12">
+>>>>>>> f181dc6007d57a97e5025047673dcdaabb70f344
         {children}
       </div>
     </div>
