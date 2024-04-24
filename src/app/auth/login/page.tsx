@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import api from "../../../../intercepter";
+import Link from "next/link";
+import toast from "react-hot-toast";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -19,10 +21,11 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post("/login", formData);
+      const response = await api.post("/authenticate", formData);
       console.log(response.data);
+      localStorage.setItem("token", response.data.token);
     } catch (error) {
-      console.error("Login failed:", error);
+      toast.error("Hatalı Giriş Yaptınız");
     }
   };
 
@@ -114,12 +117,13 @@ function Login() {
                 Giriş Yap
               </button>
               <p className="text-sm font-light text-center text-gray-500 dark:text-gray-300">
-                <a
-                  href="#"
+                <Link
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  href="/auth/register"
                 >
+                  {" "}
                   Hesabınız yok mu ?
-                </a>
+                </Link>
               </p>
             </form>
           </div>

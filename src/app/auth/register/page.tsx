@@ -1,20 +1,22 @@
 "use client";
 import React, { useState } from "react";
 import api from "../../../../intercepter";
+import toast from "react-hot-toast";
+import Link from "next/link";
 
 function Register() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    // confirmPassword: "",
-    // agreedToTerms: false,
     gender: "MALE",
     name: "",
     surname: "",
     username: "",
     role: "COMPANY_USER",
   });
-  console.log(formData);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
@@ -25,11 +27,21 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.password !== confirmPassword) {
+      toast.error("Şifreler uyuşmuyor.");
+      return;
+    }
+    if (!agreedToTerms) {
+      toast.error("Kullanım şartlarını kabul etmelisiniz.");
+      return;
+    }
     try {
       const response = await api.post("/register", formData);
       console.log(response.data);
+      toast.success("Başarıyla Kaydoldunuz.");
+      localStorage.setItem("token", response.data.token);
     } catch (error) {
-      console.error("Registration failed:", error);
+      console.error("Kayıt başarısız:", error);
     }
   };
 
@@ -143,8 +155,8 @@ function Register() {
                     onChange={handleChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                   >
-                    <option>MALE</option>
-                    <option>FEMALE</option>
+                    <option value={"MALE"}>Kadın</option>
+                    <option value={"FEMALE"}>Erkek</option>
                   </select>
                 </div>
               </div>
@@ -173,6 +185,7 @@ function Register() {
                   Şifre Onayla
                 </label>
                 <input
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   type="password"
                   name="confirmPassword"
                   id="confirmPassword"
@@ -261,6 +274,7 @@ function Register() {
                   name="agreedToTerms"
                   className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                   required
+                  onChange={(e) => setAgreedToTerms(e.target.checked)}
                 />
                 <div className="ml-3 text-sm">
                   <label
@@ -285,12 +299,13 @@ function Register() {
               </button>
 
               <p className="text-sm font-light text-center text-gray-500 dark:text-gray-300">
-                <a
-                  href="#"
+                <Link
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  href="/auth/login"
                 >
+                  {" "}
                   Hesabınız var mı ?
-                </a>
+                </Link>
               </p>
             </form>
           </div>
