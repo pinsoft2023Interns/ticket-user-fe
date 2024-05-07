@@ -191,75 +191,79 @@ export default function Header() {
         </Dialog.Panel>
       </Dialog>
 
-      <div className="fixed z-50 w-full h-16 max-w-lg -translate-x-1/2 bg-white border border-indigo-200 rounded-full bottom-2 left-1/2 lg:hidden ">
-        <div className="grid h-full max-w-lg grid-cols-5 mx-auto shadow-inner">
-          <Link
-            href="/uyelik/seyahatlerim"
-            data-tooltip-target="tooltip-home"
-            className="inline-flex flex-col items-center justify-center px-5 rounded-s-full hover:bg-gray-50  group"
-          >
-            <BiTrip
-              size={"1.5em"}
-              className="text-indigo-500 hover:text-indigo-700"
-            />
+      {isAuthenticated ? (
+        <div className="fixed z-50 w-full h-16 max-w-lg -translate-x-1/2 bg-white border border-indigo-200 rounded-full bottom-2 left-1/2 lg:hidden ">
+          <div className="grid h-full max-w-lg grid-cols-5 mx-auto shadow-inner">
+            <Link
+              href="/uyelik/seyahatlerim"
+              data-tooltip-target="tooltip-home"
+              className="inline-flex flex-col items-center justify-center px-5 rounded-s-full hover:bg-gray-50  group"
+            >
+              <BiTrip
+                size={"1.5em"}
+                className="text-indigo-500 hover:text-indigo-700"
+              />
 
-            <span className="sr-only">Seyahatlerim</span>
-          </Link>
+              <span className="sr-only">Seyahatlerim</span>
+            </Link>
 
-          <Link
-            href="/uyelik/rezervasyonlarim"
-            data-tooltip-target="tooltip-wallet"
-            className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50  group"
-          >
-            <FaCalendarCheck
-              size={"1.5em"}
-              className="text-indigo-500 hover:text-indigo-700"
-            />
+            <Link
+              href="/uyelik/rezervasyonlarim"
+              data-tooltip-target="tooltip-wallet"
+              className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50  group"
+            >
+              <FaCalendarCheck
+                size={"1.5em"}
+                className="text-indigo-500 hover:text-indigo-700"
+              />
 
-            <span className="sr-only">rezervasyonlarim</span>
-          </Link>
+              <span className="sr-only">rezervasyonlarim</span>
+            </Link>
 
-          <Link
-            href="/uyelik/kuponlarim"
-            data-tooltip-target="tooltip-settings"
-            className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50  group"
-          >
-            <RiCoupon2Fill
-              size={"1.5em"}
-              className="text-indigo-500 hover:text-indigo-700"
-            />
+            <Link
+              href="/uyelik/kuponlarim"
+              data-tooltip-target="tooltip-settings"
+              className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50  group"
+            >
+              <RiCoupon2Fill
+                size={"1.5em"}
+                className="text-indigo-500 hover:text-indigo-700"
+              />
 
-            <span className="sr-only">kuponlarim</span>
-          </Link>
+              <span className="sr-only">kuponlarim</span>
+            </Link>
 
-          <Link
-            href="/uyelik/profilim"
-            data-tooltip-target="tooltip-settings"
-            className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50  group"
-          >
-            <HiUser
-              size={"1.5em"}
-              className="text-indigo-500 hover:text-indigo-700"
-            />
+            <Link
+              href="/uyelik/profilim"
+              data-tooltip-target="tooltip-settings"
+              className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50  group"
+            >
+              <HiUser
+                size={"1.5em"}
+                className="text-indigo-500 hover:text-indigo-700"
+              />
 
-            <span className="sr-only">profilim</span>
-          </Link>
+              <span className="sr-only">profilim</span>
+            </Link>
 
-          <Link
-            href={"/auth/login"}
-            onClick={handleLogout}
-            data-tooltip-target="tooltip-profile"
-            className="inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-gray-50  group"
-          >
-            <HiLogout
-              size={"1.5em"}
-              className="text-indigo-500 hover:text-indigo-700"
-            />
+            <Link
+              href={"/auth/login"}
+              onClick={handleLogout}
+              data-tooltip-target="tooltip-profile"
+              className="inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-gray-50  group"
+            >
+              <HiLogout
+                size={"1.5em"}
+                className="text-indigo-500 hover:text-indigo-700"
+              />
 
-            <span className="sr-only">Çıkış</span>
-          </Link>
+              <span className="sr-only">Çıkış</span>
+            </Link>
+          </div>
         </div>
-      </div>
+      ) : (
+        <></>
+      )}
     </header>
   );
 }
