@@ -1,10 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../../../../intercepter";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 function Login() {
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -18,17 +21,24 @@ function Login() {
     }));
   };
 
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      router.push("/");
+    }
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await api.post("/authenticate", formData);
-      console.log(response.data);
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("id", response.data.userId);
+      toast.success("Başarıyla Giriş Yaptınız");
+      router.push("/");
     } catch (error) {
       toast.error("Hatalı Giriş Yaptınız");
     }
   };
-
   return (
     <section className="bg-[url('https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-no-repeat bg-cover bg-center bg-gray-700 bg-blend-multiply bg-opacity-60">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen pt:mt-0">
@@ -112,6 +122,7 @@ function Login() {
               </div>
               <button
                 type="submit"
+                onClick={handleSubmit}
                 className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-full"
               >
                 Giriş Yap

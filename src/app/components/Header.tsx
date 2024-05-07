@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
@@ -9,6 +9,7 @@ import { RiCoupon2Fill } from "react-icons/ri";
 import { FaCalendarCheck } from "react-icons/fa";
 import { BiTrip } from "react-icons/bi";
 import Link from "next/link";
+import api from "../../../intercepter";
 
 const navigation = [
   { name: "Anasayfa", href: "#" },
@@ -20,7 +21,25 @@ const navigation = [
 export default function Header() {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    if (localStorage.getItem("token") === null) {
+      setIsAuthenticated(false);
+    } else {
+      setIsAuthenticated(true);
+    }
+    const userInfo = api.get(`/user_account/${localStorage?.getItem("id")}`);
+    userInfo.then((response) => {
+      setUser(response.data);
+    });
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("id");
+    setIsAuthenticated(false);
+  };
   return (
     <header className="bg-white">
       <nav
@@ -51,7 +70,7 @@ export default function Header() {
         <div className="flex flex-1 items-center justify-end gap-x-6">
           {isAuthenticated ? (
             <div className="hidden lg:flex">
-              <Dropdown label="Utku Cengiz" inline>
+              <Dropdown label={`${user?.name} ${user?.surname}`} inline>
                 <Dropdown.Item className="text-lg" icon={BiTrip}>
                   <Link href="/uyelik/seyahatlerim">Seyahatlerim</Link>
                 </Dropdown.Item>
@@ -66,27 +85,29 @@ export default function Header() {
                 </Dropdown.Item>
                 <Dropdown.Divider />
 
-                <Dropdown.Item className="text-lg" icon={HiLogout}>
+                <Dropdown.Item
+                  className="text-lg"
+                  icon={HiLogout}
+                  onClick={handleLogout}
+                >
                   Çıkış Yap
                 </Dropdown.Item>
               </Dropdown>
             </div>
           ) : (
             <>
-              <a
-                href="#"
-                onClick={() => router.push("auth/login")}
+              <Link
+                href={"/auth/login"}
                 className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900"
               >
                 Giriş Yap
-              </a>
-              <a
-                href="#"
-                onClick={() => router.push("auth/register")}
+              </Link>
+              <Link
+                href={"/auth/register"}
                 className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Kayıt Ol
-              </a>
+              </Link>
             </>
           )}
         </div>
@@ -157,12 +178,12 @@ export default function Header() {
                 <></>
               ) : (
                 <div className="py-6">
-                  <a
-                    href="#"
+                  <Link
+                    href={"/auth/login"}
                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >
                     Giriş Yap
-                  </a>
+                  </Link>
                 </div>
               )}
             </div>
@@ -225,7 +246,8 @@ export default function Header() {
           </Link>
 
           <Link
-            href="/auth/login"
+            href={"/auth/login"}
+            onClick={handleLogout}
             data-tooltip-target="tooltip-profile"
             className="inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-gray-50  group"
           >
@@ -234,7 +256,7 @@ export default function Header() {
               className="text-indigo-500 hover:text-indigo-700"
             />
 
-            <span className="sr-only">login</span>
+            <span className="sr-only">Çıkış</span>
           </Link>
         </div>
       </div>
