@@ -46,7 +46,6 @@ function MyProfile() {
       [name]: value,
     }));
   };
-
   const submitPassword = (e) => {
     e.preventDefault();
     if (newPassword !== confirmPassword) {
@@ -69,11 +68,14 @@ function MyProfile() {
       `/user_account/${localStorage?.getItem("id")}/password`,
       {
         id: localStorage?.getItem("id"),
-        password: currentPassword,
+        password: newPassword,
       }
     );
     userInfo.then((response) => {
       toast.success("Şifreniz güncellendi");
+      setConfirmPassword("");
+      setCurrentPassword("");
+      setNewPassword("");
     });
   };
 
