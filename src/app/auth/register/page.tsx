@@ -16,7 +16,11 @@ function Register() {
     surname: "",
     username: "",
     role: "COMPANY_USER",
+    identificationNumber: "",
+    birthDate: "",
+    phone: "",
   });
+  console.log(formData);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
@@ -39,6 +43,8 @@ function Register() {
       return;
     }
     try {
+      formData.birthDate = new Date(formData.birthDate).toISOString();
+
       const response = await api.post("/register", formData);
       toast.success("Başarıyla Kaydoldunuz.");
       localStorage.setItem("token", response.data.token);
@@ -132,6 +138,23 @@ function Register() {
                   required
                 />
               </div>
+              <div className="mb-5">
+                <label
+                  htmlFor="phone"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Telefon
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  onChange={handleChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Telefon Numaranızı girin"
+                  required
+                />
+              </div>
               <div>
                 <label
                   htmlFor="username"
@@ -146,6 +169,39 @@ function Register() {
                   id="username"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                   placeholder="spacespacexx"
+                  required
+                />
+              </div>
+              <div className="mb-5">
+                <label
+                  htmlFor="birthDate"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Doğum Tarihi
+                </label>
+                <input
+                  type="date"
+                  id="birthDate"
+                  name="birthDate"
+                  onChange={handleChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="identificationNumber"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  T.C. Kimlik Numarası
+                </label>
+                <input
+                  type="text"
+                  onChange={handleChange}
+                  name="identificationNumber"
+                  id="identificationNumber"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                  placeholder="11111111111"
                   required
                 />
               </div>

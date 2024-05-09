@@ -5,31 +5,40 @@ import api from "../../../../intercepter";
 
 function MyProfile() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    id: "",
+    username: "",
+    name: "",
+    surname: "",
     gender: "",
     phone: "",
     email: "",
+    birthDate: "",
+    identificationNumber: "",
+    role: "USER",
   });
   const [currentPassword, setCurrentPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [user, setUser] = useState(null);
-
   useEffect(() => {
     const userInfo = api.get(`/user_account/${localStorage?.getItem("id")}`);
+
     userInfo.then((response) => {
       setUser(response.data);
       setFormData({
-        firstName: response.data.name,
-        lastName: response.data.surname,
+        id: response.data.id,
+        username: response.data.username,
+        name: response.data.name,
+        surname: response.data.surname,
         gender: response.data.gender,
         phone: response.data.phone,
         email: response.data.email,
+        birthDate: response.data.birthDate,
+        identificationNumber: response.data.identificationNumber,
+        role: response.data.role,
       });
     });
   }, []);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -60,29 +69,36 @@ function MyProfile() {
 
   const submitUserForm = (e) => {
     e.preventDefault();
+    formData.birthDate = new Date(formData.birthDate).toISOString();
+    const userInfo = api.put(`/user_account/${localStorage?.getItem("id")}`, {
+      ...formData,
+    });
+    userInfo.then((response) => {
+      toast.success("Kullanıcı bilgileriniz güncellendi");
+    });
   };
   console.log(user, "user");
   return (
     <div className="flex justify-center ">
       <div className=" w-full p-20 ">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <form className="mb-8" onSubmit={submitPassword}>
+          <form className="mb-8" onSubmit={submitUserForm}>
             <div className="ml-10">
               <h2 className="text-lg font-semibold mb-4">
                 Kullanıcı Bilgileri
               </h2>
               <div className="mb-5">
                 <label
-                  htmlFor="firstName"
+                  htmlFor="name"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Adı
                 </label>
                 <input
                   type="text"
-                  id="firstName"
-                  name="firstName"
-                  value={formData.firstName}
+                  id="name"
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Adınızı girin"
@@ -91,23 +107,75 @@ function MyProfile() {
               </div>
               <div className="mb-5">
                 <label
-                  htmlFor="lastName"
+                  htmlFor="surname"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Soyadı
                 </label>
                 <input
                   type="text"
-                  id="lastName"
-                  name="lastName"
-                  value={formData.lastName}
+                  id="surname"
+                  name="surname"
+                  value={formData.surname}
                   onChange={handleChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Soyadınızı girin"
                   required
                 />
               </div>
-
+              <div className="mb-5">
+                <label
+                  htmlFor="username"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Soyadı
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Soyadınızı girin"
+                  required
+                />
+              </div>
+              <div className="mb-5">
+                <label
+                  htmlFor="identificationNumber"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  T.C Kimlik Numarası
+                </label>
+                <input
+                  type="text"
+                  id="identificationNumber"
+                  name="identificationNumber"
+                  value={formData.identificationNumber}
+                  onChange={handleChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="kimliğinizi girin"
+                  required
+                />
+              </div>
+              <div className="mb-5">
+                <label
+                  htmlFor="birthDate"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Doğum Tarihi
+                </label>
+                <input
+                  type="date"
+                  id="birthDate"
+                  name="birthDate"
+                  value={formData.birthDate}
+                  onChange={handleChange}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required
+                />
+              </div>
               <div className="mb-5">
                 <label
                   htmlFor="gender"
@@ -165,12 +233,15 @@ function MyProfile() {
                   required
                 />
               </div>
-              <button className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2">
+              <button
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2"
+                onClick={submitUserForm}
+              >
                 Bilgilerimi Güncelle
               </button>
             </div>
           </form>
-          <form className="mb-8" onSubmit={submitUserForm}>
+          <form className="mb-8" onSubmit={submitPassword}>
             <div className="ml-10">
               <h2 className="text-lg  font-semibold mb-4">Şifre Değiştirme</h2>
               <div className="mt-8 ">
