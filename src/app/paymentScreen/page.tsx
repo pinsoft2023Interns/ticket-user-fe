@@ -1,9 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import api from "../../../intercepter";
 import VisaCard from "./visa";
 import MasterCard from "./master";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 function PaymentScreen() {
+  const router = useRouter();
+
   const [cardNumber, setCardNumber] = useState("4256 4256 4256 4256");
   const [expDate, setExpDate] = useState("12/24");
   const [ccv, setCcv] = useState("");
@@ -69,15 +74,42 @@ function PaymentScreen() {
     setCardName(event.target.value);
   };
 
-  const handleSubmit = () => {
-    console.log("Payment successfully submitted");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!cardName || !cardNumber || !expDate || !ccv) {
+      toast.error("Lütfen tüm alanları doldurun");
+      return;
+    }
+    const paymentData = {
+      cardholderName: cardName,
+      cardNumber: cardNumber.replace(/\s/g, ""),
+      expiration: expDate,
+      cvv: parseInt(ccv),
+      cardLimit: 0 
+    };
+
+    try {
+      const response = await api.post("/cardInfo", paymentData);
+
+      if (response.status === 200) {
+        console.log("Payment successfully submitted");
+        toast.success("Ödeme Başarıyla Gerçekleşti");
+        router.push("/");  
+      } else {
+        console.error("Payment submission failed");
+        toast.error("Ödeme Gönderimi Başarısız Oldu");
+      }
+    } catch (error) {
+      console.error("Error submitting payment:", error);
+      toast.error("Ödeme Gönderilirken Hata Oluştu");
+    }
   };
 
   useEffect(() => {
     setIsVisaCard(cardNumber.charAt(0) === "4");
     setIsValid(cardNumber.trim() !== "");
   }, [cardNumber]);
-
   return (
     <div>
       <div className="m-4">
@@ -171,3 +203,4 @@ function PaymentScreen() {
 }
 
 export default PaymentScreen;
+
