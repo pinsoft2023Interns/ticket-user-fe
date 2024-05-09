@@ -65,6 +65,16 @@ function MyProfile() {
       toast.error("Yeni şifrenizi tekrar giriniz");
       return;
     }
+    const userInfo = api.put(
+      `/user_account/${localStorage?.getItem("id")}/password`,
+      {
+        id: localStorage?.getItem("id"),
+        password: currentPassword,
+      }
+    );
+    userInfo.then((response) => {
+      toast.success("Şifreniz güncellendi");
+    });
   };
 
   const submitUserForm = (e) => {
@@ -299,7 +309,10 @@ function MyProfile() {
                     required
                   />
                 </div>
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2">
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2"
+                  onClick={submitPassword}
+                >
                   Şifremi Güncelle
                 </button>
               </div>
