@@ -1,7 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import SeatMap from "../../components/SeatMap";
+import { useDispatch } from "react-redux";
+import SeatMap from "../components/SeatMap";
 import ExpedetionPopup from "./expedetion popup/page";
+import { setInputValue } from "../../store/slice";
+import { WriteStream } from "tty";
+import { useRouter } from "next/navigation";
 
 function TicketScreen() {
   const [selectedSeat, setSelectedSeat] = useState(false);
@@ -9,6 +13,10 @@ function TicketScreen() {
   const [selectedSeatData, setSelectedSeatData] = useState(0);
   const [showSeatMap, setShowSeatMap] = useState(false);
   const [isPopupActive, setIsPopupActive] = useState(false);
+  // const [deneme, setDeneme] = useState("");
+
+  // const dispatch = useDispatch();
+  // const router = useRouter();
 
   const seatInfo = [
     { seatLength: 38, busType: "2+1" },
@@ -73,6 +81,13 @@ function TicketScreen() {
       window.removeEventListener("keydown", handleEscKey);
     };
   }, []);
+
+  // const handleChange = () => {
+  //   console.log("deneme", deneme);
+
+  //   router.push("uyelik/rezervasyonlarim");
+  //   dispatch(setInputValue(deneme));
+  // };
 
   return (
     <>
@@ -157,6 +172,8 @@ function TicketScreen() {
               </tbody>
             </table>
           </div>
+          {/* <input onChange={(e) => setDeneme(e.target.value)} />
+          <button onClick={handleChange}>Gönder</button> */}
         </div>
       </div>
       {isPopupActive && (
