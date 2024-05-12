@@ -9,6 +9,7 @@ import SeatScreen from "./seatscreen/page";
 import Footer from "./components/Footer";
 import TicketScreen from "./auth/ticketScreen/page";
 import PaymentScreen from "./paymentScreen/page";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Header />
+        <Toaster />
         {/* <TicketScreen /> */}
         {/* <PaymentScreen /> */}
         {/* <SeatScreen /> */}

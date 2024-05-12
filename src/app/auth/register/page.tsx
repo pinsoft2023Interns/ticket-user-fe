@@ -1,17 +1,24 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../../../../intercepter";
+import toast from "react-hot-toast";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 function Register() {
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    confirmPassword: "",
-    day: "",
-    month: "",
-    year: "",
-    agreedToTerms: false,
+    gender: "MALE",
+    name: "",
+    surname: "",
+    username: "",
+    role: "COMPANY_USER",
   });
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -23,13 +30,30 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.password !== confirmPassword) {
+      toast.error("Şifreler uyuşmuyor.");
+      return;
+    }
+    if (!agreedToTerms) {
+      toast.error("Kullanım şartlarını kabul etmelisiniz.");
+      return;
+    }
     try {
       const response = await api.post("/register", formData);
-      console.log(response.data);
+      toast.success("Başarıyla Kaydoldunuz.");
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("id", response.data.userId);
+      router.push("/");
     } catch (error) {
-      console.error("Registration failed:", error);
+      console.error("Kayıt başarısız:", error);
     }
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      router.push("/");
+    }
+  }, []);
 
   const years: number[] = [];
   for (let year = 1990; year <= 2021; year++) {
@@ -38,7 +62,7 @@ function Register() {
 
   return (
     <section className="bg-[url('https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-no-repeat bg-cover bg-center bg-gray-700 bg-blend-multiply bg-opacity-60">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen pt:mt-0">
+      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto  pt:mt-0">
         <a
           href="#"
           className="flex items-center mb-6 text-2xl font-semibold text-white"
@@ -55,6 +79,42 @@ function Register() {
               Hesap Oluşturun
             </h2>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+              <div className="flex gap-4">
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    İsim
+                  </label>
+                  <input
+                    type="text"
+                    onChange={handleChange}
+                    name="name"
+                    id="name"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                    placeholder="Utku"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="surname"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Soyisim
+                  </label>
+                  <input
+                    type="text"
+                    onChange={handleChange}
+                    name="surname"
+                    id="surname"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                    placeholder="Cengiz"
+                    required
+                  />
+                </div>
+              </div>
               <div>
                 <label
                   htmlFor="email"
@@ -71,6 +131,44 @@ function Register() {
                   placeholder="pinsoft@pinsoft.com"
                   required
                 />
+              </div>
+              <div>
+                <label
+                  htmlFor="username"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Kullanıcı Adı
+                </label>
+                <input
+                  type="text"
+                  onChange={handleChange}
+                  name="username"
+                  id="username"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                  placeholder="spacespacexx"
+                  required
+                />
+              </div>
+
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="gender"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Cinsiyet
+                </label>
+                <div className="mt-2">
+                  <select
+                    id="gender"
+                    name="gender"
+                    autoComplete="gender-name"
+                    onChange={handleChange}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                  >
+                    <option value={"FEMALE"}>Kadın</option>
+                    <option value={"MALE"}>Erkek</option>
+                  </select>
+                </div>
               </div>
               <div>
                 <label
@@ -97,8 +195,8 @@ function Register() {
                   Şifre Onayla
                 </label>
                 <input
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   type="password"
-                  onChange={handleChange}
                   name="confirmPassword"
                   id="confirmPassword"
                   placeholder="••••••••"
@@ -106,7 +204,7 @@ function Register() {
                   required
                 />
               </div>
-              <div>
+              {/* <div>
                 <p className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Doğum Tarihi
                 </p>
@@ -178,15 +276,15 @@ function Register() {
                     </select>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="flex items-start">
                 <input
                   id="agreedToTerms"
                   type="checkbox"
-                  onChange={handleChange}
                   name="agreedToTerms"
                   className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                   required
+                  onChange={(e) => setAgreedToTerms(e.target.checked)}
                 />
                 <div className="ml-3 text-sm">
                   <label
@@ -205,18 +303,20 @@ function Register() {
               </div>
               <button
                 type="submit"
+                onClick={handleSubmit}
                 className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 w-full"
               >
                 Hesap Oluştur
               </button>
 
               <p className="text-sm font-light text-center text-gray-500 dark:text-gray-300">
-                <a
-                  href="#"
+                <Link
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  href="/auth/login"
                 >
+                  {" "}
                   Hesabınız var mı ?
-                </a>
+                </Link>
               </p>
             </form>
           </div>
