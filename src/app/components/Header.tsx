@@ -11,6 +11,11 @@ import { BiTrip } from "react-icons/bi";
 import Link from "next/link";
 import api from "../../../intercepter";
 
+interface NavigationItem {
+  name: string;
+  href: string;
+}
+
 const navigation = [
   { name: "Anasayfa", href: "#" },
   { name: "Yardım", href: "#" },
