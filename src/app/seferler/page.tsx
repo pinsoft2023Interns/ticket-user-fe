@@ -2,8 +2,11 @@
 import React, { useEffect, useState } from "react";
 import SeatMap from "../components/SeatMap";
 import ExpedetionPopup from "./expedetion popup/page";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 function TicketScreen() {
+  const router = useRouter();
   const [selectedSeat, setSelectedSeat] = useState(false);
   const [selectedSeatImage, setSelectedSeatImage] = useState("");
   const [selectedSeatData, setSelectedSeatData] = useState(0);
@@ -126,17 +129,50 @@ function TicketScreen() {
                           <div className="bg-white p-4 border border-gray-300 shadow-lg">
                             <div
                               onClick={() => setIsPopupActive(true)}
-                              className="cursor-pointer"
+                              className="cursor-pointer text-xl font-bold pb-4"
                             >
                               Sefer detayı
                             </div>
-                            <div className="flex items-center justify-between ">
+                            <div className="flex justify-center gap-8 pb-6">
+                              <div className="flex items-center gap-4">
+                                <Image
+                                  src="/greenSeat.svg"
+                                  alt="seat"
+                                  className="rotate-90"
+                                  width={40}
+                                  height={40}
+                                />
+                                <h3>Boş Koltuk</h3>
+                              </div>
+                              <div className="flex items-center gap-4">
+                                <Image
+                                  src="/blueSeat.svg"
+                                  alt="seat"
+                                  className="rotate-90"
+                                  width={40}
+                                  height={40}
+                                />
+                                <h3>Erkek - Dolu Koltuk</h3>
+                              </div>
+                              <div className="flex items-center gap-4">
+                                <Image
+                                  src="/pinkSeat.svg"
+                                  alt="seat"
+                                  className="rotate-90"
+                                  width={40}
+                                  height={40}
+                                />
+                                <h3>Kadın - Dolu Koltuk</h3>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center justify-between gap-4">
                               <SeatMap seatInfo={seatInfo} />
                               <div className="flex items-center justify-between flex-col gap [20px]   ">
-                                <p>Lütfen Koltuk Seçiniz</p>
                                 <button
                                   type="button"
-                                  className="focus:outline-none text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                                  className="focus:outline-none text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+                                  onClick={() => router.push("/payment")}
                                 >
                                   Onayla ve devam et
                                 </button>
