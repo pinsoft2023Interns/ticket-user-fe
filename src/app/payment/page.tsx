@@ -104,7 +104,7 @@ function PaymentScreen() {
 
           <div className="mt-4 p-4">
             <h1 className="text-xl font-semibold text-gray-700 text-center">
-              Card payment
+              Ödeme Bilgileri
             </h1>
             <div>
               <div className="my-3">
@@ -128,7 +128,7 @@ function PaymentScreen() {
               <div className="my-3 flex flex-col">
                 <div className="flex justify-between mb-2">
                   <label htmlFor="" className="text-gray-700">
-                    Expired
+                    CVV
                   </label>
                   <label htmlFor="" className="text-gray-700">
                     Son Kullanım Tarihi
@@ -138,7 +138,7 @@ function PaymentScreen() {
                   <input
                     type="text"
                     className="block w-3/4 px-5 py-2 border rounded-lg bg-white shadow-lg placeholder-gray-400 text-gray-700 focus:ring focus:outline-none"
-                    placeholder="Security code"
+                    placeholder="123"
                     value={ccv}
                     onChange={handleCcvChange}
                   />
@@ -161,7 +161,7 @@ function PaymentScreen() {
               onClick={handleSubmit}
               disabled={!isValid}
             >
-              Pay now
+              Ödeme Yap
             </button>
           </footer>
         </div>

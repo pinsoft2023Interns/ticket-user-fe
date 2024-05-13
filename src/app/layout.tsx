@@ -7,7 +7,7 @@ import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import TicketScreen from "./seferler/page";
-import PaymentScreen from "./paymentScreen/page";
+import PaymentScreen from "./payment/page";
 import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
