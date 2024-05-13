@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import SeatMap from "../../components/SeatMap";
+import SeatMap from "../components/SeatMap";
 import ExpedetionPopup from "./expedetion popup/page";
 
 function TicketScreen() {

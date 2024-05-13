@@ -7,7 +7,7 @@ import "./globals.css";
 import Header from "./components/Header";
 import SeatScreen from "./seatscreen/page";
 import Footer from "./components/Footer";
-import TicketScreen from "./auth/ticketScreen/page";
+import TicketScreen from "./ticketScreen/page";
 import PaymentScreen from "./paymentScreen/page";
 import { Toaster } from "react-hot-toast";
 
