@@ -40,7 +40,7 @@ function SeatMap({ seatInfo }) {
                           onClick={() => handleSeatClick(i + j + 1)}
                         >
                           <Image
-                            src="/blueSeat.svg"
+                            src="/greenSeat.svg"
                             alt="seat"
                             className="rotate-90"
                             width={40}
@@ -77,7 +77,7 @@ function SeatMap({ seatInfo }) {
                           onClick={() => handleSeatClick(i + j + 1)}
                         >
                           <Image
-                            src="/blueSeat.svg"
+                            src="/greenSeat.svg"
                             className="rotate-90"
                             alt="seat"
                             width={40}
