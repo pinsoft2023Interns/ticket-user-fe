@@ -13,10 +13,11 @@ function TicketScreen() {
   const [selectedSeatData, setSelectedSeatData] = useState(0);
   const [showSeatMap, setShowSeatMap] = useState(false);
   const [isPopupActive, setIsPopupActive] = useState(false);
-  // const [deneme, setDeneme] = useState("");
 
-  // const dispatch = useDispatch();
-  // const router = useRouter();
+  const [deneme, setDeneme] = useState("");
+
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const seatInfo = [
     { seatLength: 38, busType: "2+1" },
@@ -82,12 +83,12 @@ function TicketScreen() {
     };
   }, []);
 
-  // const handleChange = () => {
-  //   console.log("deneme", deneme);
+  const handleChange = () => {
+    console.log("deneme", deneme);
 
-  //   router.push("uyelik/rezervasyonlarim");
-  //   dispatch(setInputValue(deneme));
-  // };
+    dispatch(setInputValue(deneme));
+    router.push("uyelik/rezervasyonlarim");
+  };
 
   return (
     <>
@@ -172,8 +173,8 @@ function TicketScreen() {
               </tbody>
             </table>
           </div>
-          {/* <input onChange={(e) => setDeneme(e.target.value)} />
-          <button onClick={handleChange}>Gönder</button> */}
+          <input onChange={(e) => setDeneme(e.target.value)} />
+          <button onClick={handleChange}>Gönder</button>
         </div>
       </div>
       {isPopupActive && (
