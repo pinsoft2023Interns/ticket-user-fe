@@ -29,11 +29,20 @@ function PersonInformation() {
     console.log(formData);
   };
 
+  // Kart numarasını ve CVV'yi gizlemek için mask fonksiyonları
+  const maskCardNumber = (cardNumber) => {
+    return cardNumber.replace(/\d(?=\d{4})/g, "*");
+  };
+
+  const maskCVV = (cvv) => {
+    return cvv.replace(/\d/g, "*");
+  };
+
   return (
     <div className="flex justify-center ">
-      <div className=" w-full p-20  ">
-        <form className="mb-8 " onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 -600">
+      <div className="flex w-full p-8">
+        <form className="flex mb-8" onSubmit={handleSubmit}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 ">
             <div className="flex flex-col gap-8 pr-10  h-auto">
               <span className="font-semibold">Firma</span>
               <hr />
@@ -161,7 +170,6 @@ function PersonInformation() {
                   <option value="">Seçiniz</option>
                   <option value="male">Erkek</option>
                   <option value="female">Kadın</option>
-                  <option value="other">Diğer</option>
                 </select>
               </div>
               <div className="mb-5">
@@ -201,20 +209,20 @@ function PersonInformation() {
                 />
               </div>
             </div>
-            <div className=" flex flex-col justify-start items-center bg-lime-600 ">
+            <div className=" flex flex-col justify-start items-center ">
               <h2 className="text-lg  font-semibold mb-4">Ödeme Bilgileri</h2>
-              <div className="flex flex-col  items-center mt-8  bg-lime-200 p-6 ">
+              <div className="flex flex-col  items-center  gap-4">
                 <button
                   disabled
-                  className="opacity-50  relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br bg-red-600 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
+                  className="opacity-50 w-full relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-md font-medium text-gray-900 rounded-lg group bg-gradient-to-br bg-red-600 dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
                 >
-                  <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
+                  <span className="relative w-full px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
                     Banka/Kredi Kartı
                   </span>
                 </button>
 
                 <img
-                  className="w-3/4"
+                  className="w-full"
                   src="https://s3.eu-central-1.amazonaws.com/static.obilet.com/images/web/cards-782.png"
                   alt="Visa, MasterCard, American Express, Maestro, Visa Electron"
                 />
@@ -229,14 +237,14 @@ function PersonInformation() {
                     type="password"
                     id="currentPassword"
                     name="currentPassword"
-                    value={formData.currentPassword}
+                    value={maskCardNumber(formData.currentPassword)}
                     onChange={handleChange}
-                    className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Şuanki Şifrenizi girin"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="**** **** **** ****"
                     required
                   />
                 </div>
-                <div className="flex gap-2 w-full mb-5">
+                <div className="flex gap-2 w-full mb-5 ">
                   <div>
                     <label
                       htmlFor="newPassword"
@@ -248,7 +256,7 @@ function PersonInformation() {
                       type="password"
                       id="newPassword"
                       name="newPassword"
-                      value={formData.newPassword}
+                      value={maskCardNumber(formData.newPassword)}
                       onChange={handleChange}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="Son Kullanma Tarihi"
@@ -266,7 +274,7 @@ function PersonInformation() {
                       type="password"
                       id="confirmPassword"
                       name="confirmPassword"
-                      value={formData.confirmPassword}
+                      value={maskCVV(formData.confirmPassword)}
                       onChange={handleChange}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="CVV"
@@ -275,17 +283,12 @@ function PersonInformation() {
                   </div>
                 </div>
               </div>
-              <button className="w-3/4 bg-blue-500 text-white px-4 py-2 rounded-lg mr-2">
-                440 Tl Güvenli Ödeme Yap
-              </button>
-              <div>
-                <h2 className="text-lg font-semibold mt-10">
-                  Duyuru Tercihleri
-                </h2>
+              <div className="flex flex-col gap-5">
+                <h2 className="text-lg font-semibold">Duyuru Tercihleri</h2>
                 <div className="mb-5">
                   <label
                     htmlFor="emailNotification"
-                    className="flex items-center mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="flex items-start mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
                     <input
                       type="checkbox"
@@ -313,12 +316,18 @@ function PersonInformation() {
                     Koşulsuz İptal Güvencesi İstiyorum (44 Tl / 1 kişi)
                   </label>
                 </div>
-                <div>
-                  <AiOutlineSafety />
-                  <p>
-                    Pinsoft üzerinden yapılan işlemler güvenlik sertifikalarıyla
-                    korunmaktadır.
-                  </p>
+
+                <div className="flex flex-col items-center justify-center ">
+                  <button className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg mr-2">
+                    440 Tl Güvenli Ödeme Yap
+                  </button>
+                  <div className="flex items-center gap-10">
+                    <AiOutlineSafety className="w-20 h-20 text-red-600" />
+                    <p>
+                      Pinsoft üzerinden yapılan işlemler güvenlik
+                      sertifikalarıyla korunmaktadır.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
