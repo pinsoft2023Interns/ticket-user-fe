@@ -15,6 +15,8 @@ function PersonInformation() {
     newPassword: "",
     confirmPassword: "",
   });
+  const [expDate, setExpDate] = useState("");
+  const [ccv, setCcv] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,13 +31,46 @@ function PersonInformation() {
     console.log(formData);
   };
 
-  // Kart numarasını ve CVV'yi gizlemek için mask fonksiyonları
-  const maskCardNumber = (cardNumber) => {
-    return cardNumber.replace(/\d(?=\d{4})/g, "*");
+  const maskCardNumber = (cardNumberValue) => {
+    console.log("cardNumber", cardNumberValue);
+    let input = cardNumberValue.replace(/\D/g, "");
+    if (input.length > 16) {
+      input = input.slice(0, 16);
+    }
+
+    let formattedInput = input.match(/.{1,4}/g);
+    if (formattedInput) {
+      formattedInput = formattedInput.join(" ");
+    }
+    return formattedInput || "";
   };
 
-  const maskCVV = (cvv) => {
-    return cvv.replace(/\d/g, "*");
+  const handleExpDateChange = (event) => {
+    let input = event.target.value.replace(/\D/g, "");
+    if (input.length > 4) {
+      input = input.slice(0, 4);
+    }
+    let formattedInput = input.match(/.{1,2}/g);
+    if (formattedInput) {
+      formattedInput = formattedInput.join("/");
+    }
+
+    if (formattedInput) {
+      const [month, year] = formattedInput.split("/");
+      if (parseInt(month) > 12) {
+        console.log(`12'den büyük bir değer`);
+        return;
+      }
+    }
+    setExpDate(formattedInput || "");
+  };
+
+  const handleCcvChange = (event) => {
+    let input = event.target.value.replace(/\D/g, "");
+    if (input.length > 3) {
+      input = input.slice(0, 3);
+    }
+    setCcv(input);
   };
 
   return (
@@ -234,7 +269,7 @@ function PersonInformation() {
                     Kart Numarası
                   </label>
                   <input
-                    type="password"
+                    type="text"
                     id="currentPassword"
                     name="currentPassword"
                     value={maskCardNumber(formData.currentPassword)}
@@ -253,11 +288,10 @@ function PersonInformation() {
                       Son Kullanma Tarihi
                     </label>
                     <input
-                      type="password"
                       id="newPassword"
                       name="newPassword"
-                      value={maskCardNumber(formData.newPassword)}
-                      onChange={handleChange}
+                      value={expDate}
+                      onChange={handleExpDateChange}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="Son Kullanma Tarihi"
                       required
@@ -271,11 +305,11 @@ function PersonInformation() {
                       Cvv
                     </label>
                     <input
-                      type="password"
+                      type="text"
                       id="confirmPassword"
                       name="confirmPassword"
-                      value={maskCVV(formData.confirmPassword)}
-                      onChange={handleChange}
+                      value={ccv}
+                      onChange={handleCcvChange}
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="CVV"
                       required
