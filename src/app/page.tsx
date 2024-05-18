@@ -14,11 +14,6 @@ import {
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
 import Datepicker from "react-tailwindcss-datepicker";
-import Counter from "./counter";
-import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
-import { useDispatch } from "react-redux";
-import { increment, decrement } from "../store/slice";
 
 const citys = [
   { id: 1, name: "İstanbul" },
@@ -89,11 +84,6 @@ export default function Example() {
     setValue(newValue);
   };
 
-  const count = useSelector((state: RootState) => state.counterReducer.value);
-  const dispatch = useDispatch();
-
-  console.log("Count çalışıyor", count);
-
   const changeCity = () => {
     const temp = selectedFrom;
     setSelectedFrom(selectedTo);
@@ -105,12 +95,14 @@ export default function Example() {
       <div className="flex justify-center sm:px-12 px-4 bg-[url('https://images.pexels.com/photos/2955704/pexels-photo-2955704.jpeg?auto=compress&cs=tinysrgb&w=600')] bg-cover">
         <div className="grid grid-cols-12 gap-3 max-w-7xl justify-center py-56">
           <div className="flex lg:col-span-6 col-span-12">
+            {/* combobox */}
             <div>
               <Combobox value={selectedFrom} onChange={setSelectedFrom}>
                 <div className="relative">
                   <Combobox.Label className="text-white">
                     Nereden
                   </Combobox.Label>
+
                   <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
                     <Combobox.Input
                       className="w-full border-none py-4 pl-3 pr-10 text-lg leading-5 text-gray-900 focus:ring-0 h-full"
@@ -170,6 +162,7 @@ export default function Example() {
                 </div>
               </Combobox>
             </div>
+            {/* change button */}
             <button className="mt-5" onClick={() => changeCity()}>
               <svg
                 className="w-10 h-10 text-white"
@@ -417,8 +410,6 @@ export default function Example() {
                 fırsatlar da bulunmaktadır. Sana özel indirimlerle sevdiklerine
                 ulaşmanın keyfini çıkarabilirsin.
               </p>
-              <button onClick={() => dispatch(decrement())}>Azalt</button>
-              <button onClick={() => dispatch(increment())}>Arttır</button>
             </div>
             <div className="flex flex-wrap items-start justify-end gap-6 sm:gap-8 lg:contents">
               <div className="w-0 flex-auto lg:ml-auto lg:w-auto lg:flex-none lg:self-end">
