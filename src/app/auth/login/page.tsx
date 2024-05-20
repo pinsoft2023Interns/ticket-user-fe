@@ -24,7 +24,9 @@ function Login() {
   useEffect(() => {
     if (
       localStorage.getItem("token") !== "null" &&
-      localStorage.getItem("id") !== "null"
+      localStorage.getItem("id") !== "null" &&
+      localStorage.getItem("token") &&
+      localStorage.getItem("id")
     ) {
       router.push("/");
     }

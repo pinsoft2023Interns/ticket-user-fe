@@ -29,10 +29,13 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+
   useEffect(() => {
     if (
       localStorage.getItem("token") === "null" ||
-      localStorage.getItem("id") === "null"
+      localStorage.getItem("id") === "null" ||
+      !localStorage.getItem("token") ||
+      !localStorage.getItem("id")
     ) {
       setIsAuthenticated(false);
     } else {
@@ -43,7 +46,6 @@ export default function Header() {
       });
     }
   }, []);
-
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("id");
