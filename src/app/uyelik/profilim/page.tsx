@@ -41,6 +41,11 @@ function MyProfile() {
       toast.error("Şifre en az 6 karakter olmalıdır");
       return;
     }
+    const check = await api.get(`/user_account/${localStorage.getItem("id")}`);
+    if (check.data.password !== formPassword.currentPassword) {
+      toast.error("Eski şifrenizi yanlış girdiniz");
+      return;
+    }
     const response = await api.put(
       `/user_account/${localStorage.getItem("id")}/password`,
       {
