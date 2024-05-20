@@ -33,6 +33,20 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (
+      formData.name === "" ||
+      formData.surname === "" ||
+      formData.email === "" ||
+      formData.username === "" ||
+      formData.phone === "" ||
+      formData.identificationNumber === "" ||
+      formData.password === "" ||
+      confirmPassword === "" ||
+      agreedToTerms === false
+    ) {
+      toast.error("Lütfen tüm alanları doldurunuz.");
+      return;
+    }
     if (formData.password !== confirmPassword) {
       toast.error("Şifreler uyuşmuyor.");
       return;
@@ -41,6 +55,39 @@ function Register() {
       toast.error("Kullanım şartlarını kabul etmelisiniz.");
       return;
     }
+    if (formData.identificationNumber.length !== 11) {
+      toast.error("TC Kimlik numarası 11 haneli olmalıdır.");
+      return;
+    }
+    if (formData.phone.length !== 10) {
+      toast.error("Telefon numarası 10 haneli olmalıdır.");
+      return;
+    }
+    if (formData.birthDate > new Date()) {
+      toast.error("Doğum tarihi bugünden büyük olamaz.");
+      return;
+    }
+    if (formData.birthDate < new Date("01.01.1900")) {
+      toast.error("Doğum tarihi 1900 yılından küçük olamaz.");
+      return;
+    }
+    if (formData.name.length < 2) {
+      toast.error("İsim 2 karakterden küçük olamaz.");
+      return;
+    }
+    if (formData.surname.length < 2) {
+      toast.error("Soyisim 2 karakterden küçük olamaz.");
+      return;
+    }
+    if (formData.username.length < 4) {
+      toast.error("Kullanıcı adı 4 karakterden küçük olamaz.");
+      return;
+    }
+    if (formData.password.length < 6) {
+      toast.error("Şifre 6 karakterden küçük olamaz.");
+      return;
+    }
+
     try {
       const response = await api.post("/register", {
         ...formData,
@@ -53,7 +100,7 @@ function Register() {
       localStorage.setItem("id", response.data.userId);
       router.push("/");
     } catch (error) {
-      console.error("Kayıt başarısız:", error);
+      toast.error("Kayıt başarısız, lütfen bilgilerinizi kontrol ediniz.");
     }
   };
 
@@ -262,79 +309,7 @@ function Register() {
                   required
                 />
               </div>
-              {/* <div>
-                <p className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  Doğum Tarihi
-                </p>
-                <div className="flex items-center">
-                  <div className="w-full mr-4">
-                    <label htmlFor="day" className="sr-only">
-                      Gün
-                    </label>
-                    <select
-                      id="day"
-                      onChange={handleChange}
-                      name="day"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                      <option disabled selected hidden>
-                        Gün
-                      </option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                      <option value="7">7</option>
-                      <option value="8">8</option>
-                    </select>
-                  </div>
-                  <div className="w-full mr-4">
-                    <label htmlFor="month" className="sr-only">
-                      Ay
-                    </label>
-                    <select
-                      id="month"
-                      onChange={handleChange}
-                      name="month"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                      <option disabled selected hidden>
-                        Ay
-                      </option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                      <option value="7">7</option>
-                      <option value="8">8</option>
-                    </select>
-                  </div>
-                  <div className="w-full">
-                    <label htmlFor="year" className="sr-only">
-                      Yıl
-                    </label>
-                    <select
-                      id="year"
-                      name="year"
-                      onChange={handleChange}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    >
-                      <option disabled selected hidden>
-                        Yıl
-                      </option>
-                      {years.map((year) => (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </div> */}
+
               <div className="flex items-start">
                 <input
                   id="agreedToTerms"
