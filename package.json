@@ -13,6 +13,7 @@
     "@heroicons/react": "^2.1.1",
     "@reduxjs/toolkit": "^2.2.4",
     "@types/react-redux": "^7.1.33",
+    "@types/use-sync-external-store": "^0.0.6",
     "dayjs": "^1.11.10",
     "flowbite-react": "^0.7.3",
     "moment": "^2.30.1",
