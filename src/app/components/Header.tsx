@@ -45,6 +45,7 @@ export default function Header() {
     localStorage.removeItem("token");
     localStorage.removeItem("id");
     setIsAuthenticated(false);
+    router.push("/auth/login");
   };
   return (
     <header className="bg-white">

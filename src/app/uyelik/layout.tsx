@@ -7,7 +7,7 @@ const navigation = [
   { name: "Rezervasyonlarım", href: "/uyelik/rezervasyonlarim" },
   { name: "Kuponlarım", href: "/uyelik/kuponlarim" },
   { name: "Profilim", href: "/uyelik/profilim" },
-  { name: "Çıkış Yap", href: "#" },
+  { name: "Çıkış Yap", href: "/auth/login" },
 ];
 
 function classNames(...classes) {
