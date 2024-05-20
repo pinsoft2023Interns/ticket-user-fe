@@ -16,7 +16,12 @@ interface NavigationItem {
   href: string;
 }
 
-const navigation = [
+interface User {
+  name: string;
+  surname: string;
+}
+
+const navigation: NavigationItem[] = [
   { name: "Anasayfa", href: "/" },
   { name: "Seyahat Sorgula", href: "#" },
   { name: "Yardım ve SSS", href: "/yardim-ve-sss" },
@@ -28,7 +33,7 @@ export default function Header() {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     if (
