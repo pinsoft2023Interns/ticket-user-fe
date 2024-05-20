@@ -1,9 +1,20 @@
 "use client";
-import React, { useState } from "react";
-import toast from "react-hot-toast";
+import { useState, useEffect } from "react";
 import api from "../../../../intercepter";
+import toast from "react-hot-toast";
 
-function MyProfile() {
+interface UserData {
+  name: string;
+  surname: string;
+  identificationNumber: string;
+  birthDate: string;
+  gender: string;
+  phone: string;
+  email: string;
+  password: string;
+}
+
+const Page = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -13,13 +24,41 @@ function MyProfile() {
     phone: "",
     email: "",
   });
+
   const [formPassword, setFormPassword] = useState({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
 
-  const handleChangeUserData = (e) => {
+  const [userData, setUserData] = useState<UserData | null>(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await api.get(
+          `/user_account/${localStorage.getItem("id")}`
+        );
+        const userData: UserData = response.data;
+        setUserData(userData);
+        setFormData({
+          firstName: userData.name,
+          lastName: userData.surname,
+          tc: userData.identificationNumber,
+          birthDate: userData.birthDate,
+          gender: userData.gender,
+          phone: userData.phone,
+          email: userData.email,
+        });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const handleChangeUserData = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -27,11 +66,12 @@ function MyProfile() {
     }));
   };
 
-  const updateData = (e) => {
+  const updateData = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
   };
-  const updatePassword = async (e) => {
+
+  const updatePassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formPassword.newPassword !== formPassword.confirmPassword) {
       toast.error("Şifreler uyuşmuyor");
@@ -41,21 +81,25 @@ function MyProfile() {
       toast.error("Şifre en az 6 karakter olmalıdır");
       return;
     }
-    const check = await api.get(`/user_account/${localStorage.getItem("id")}`);
-    if (check.data.password !== formPassword.currentPassword) {
+    if (userData && userData.password !== formPassword.currentPassword) {
       toast.error("Eski şifrenizi yanlış girdiniz");
       return;
     }
-    const response = await api.put(
-      `/user_account/${localStorage.getItem("id")}/password`,
-      {
-        id: localStorage.getItem("id"),
-        password: formPassword.newPassword,
-      }
-    );
+    try {
+      const response = await api.put(
+        `/user_account/${localStorage.getItem("id")}/password`,
+        {
+          id: localStorage.getItem("id"),
+          password: formPassword.newPassword,
+        }
+      );
 
-    if (response.status === 200) {
-      toast.success("Şifreniz başarıyla değiştirildi");
+      if (response.status === 200) {
+        toast.success("Şifreniz başarıyla değiştirildi");
+      }
+    } catch (error) {
+      console.error("Error updating password:", error);
+      toast.error("Şifre güncellenirken bir hata oluştu");
     }
   };
 
@@ -152,9 +196,8 @@ function MyProfile() {
                 required
               >
                 <option value="">Seçiniz</option>
-                <option value="male">Erkek</option>
-                <option value="female">Kadın</option>
-                <option value="other">Diğer</option>
+                <option value="MALE">Erkek</option>
+                <option value="FEMALE">Kadın</option>
               </select>
             </div>
             <div className="mb-5">
@@ -311,6 +354,6 @@ function MyProfile() {
       </div>
     </div>
   );
-}
+};
 
-export default MyProfile;
+export default Page;
