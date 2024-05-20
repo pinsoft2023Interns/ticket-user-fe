@@ -8,7 +8,7 @@ interface UserData {
   surname: string;
   username: string;
   identificationNumber: string;
-  birthDate: string;
+  birthDate: Date;
   gender: string;
   phone: string;
   email: string;
@@ -21,7 +21,7 @@ const Page = () => {
     surname: "",
     username: "",
     identificationNumber: "",
-    birthDate: "",
+    birthDate: new Date(),
     gender: "",
     phone: "",
     email: "",
@@ -49,7 +49,7 @@ const Page = () => {
           surname: userData.surname,
           username: userData.username,
           identificationNumber: userData.identificationNumber,
-          birthDate: userData.birthDate,
+          birthDate: new Date(userData.birthDate),
           gender: userData.gender,
           phone: userData.phone,
           email: userData.email,
@@ -77,7 +77,7 @@ const Page = () => {
     e.preventDefault();
     try {
       const response = await api.put(
-        `/user_accountt/${localStorage.getItem("id")}`,
+        `/user_account/${localStorage.getItem("id")}`,
         {
           id: localStorage.getItem("id"),
           ...formData,
@@ -214,7 +214,7 @@ const Page = () => {
                 type="date"
                 id="birthDate"
                 name="birthDate"
-                value={formData.birthDate}
+                value={formData.birthDate.toISOString().split("T")[0]}
                 onChange={handleChangeUserData}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required
