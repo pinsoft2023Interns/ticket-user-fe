@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 interface UserData {
   name: string;
   surname: string;
+  username: string;
   identificationNumber: string;
   birthDate: string;
   gender: string;
@@ -16,13 +17,15 @@ interface UserData {
 
 const Page = () => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    tc: "",
+    name: "",
+    surname: "",
+    username: "",
+    identificationNumber: "",
     birthDate: "",
     gender: "",
     phone: "",
     email: "",
+    role: "COMPANY_USER",
   });
 
   const [formPassword, setFormPassword] = useState({
@@ -42,13 +45,15 @@ const Page = () => {
         const userData: UserData = response.data;
         setUserData(userData);
         setFormData({
-          firstName: userData.name,
-          lastName: userData.surname,
-          tc: userData.identificationNumber,
+          name: userData.name,
+          surname: userData.surname,
+          username: userData.username,
+          identificationNumber: userData.identificationNumber,
           birthDate: userData.birthDate,
           gender: userData.gender,
           phone: userData.phone,
           email: userData.email,
+          role: "COMPANY_USER",
         });
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -58,7 +63,9 @@ const Page = () => {
     fetchUserData();
   }, []);
 
-  const handleChangeUserData = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeUserData = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -66,9 +73,24 @@ const Page = () => {
     }));
   };
 
-  const updateData = (e: React.FormEvent<HTMLFormElement>) => {
+  const updateData = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
+    try {
+      const response = await api.put(
+        `/user_accountt/${localStorage.getItem("id")}`,
+        {
+          id: localStorage.getItem("id"),
+          ...formData,
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("Bilgileriniz başarıyla güncellendi");
+      }
+    } catch (error) {
+      console.error("Error updating password:", error);
+      toast.error("Bilgileriniz güncellenirken bir hata oluştu!");
+    }
   };
 
   const updatePassword = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -111,16 +133,16 @@ const Page = () => {
             <h2 className="text-lg font-semibold mb-4">Kullanıcı Bilgileri</h2>
             <div className="mb-5">
               <label
-                htmlFor="firstName"
+                htmlFor="name"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Adı
               </label>
               <input
                 type="text"
-                id="firstName"
-                name="firstName"
-                value={formData.firstName}
+                id="name"
+                name="name"
+                value={formData.name}
                 onChange={handleChangeUserData}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Adınızı girin"
@@ -129,16 +151,16 @@ const Page = () => {
             </div>
             <div className="mb-5">
               <label
-                htmlFor="lastName"
+                htmlFor="surname"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Soyadı
               </label>
               <input
                 type="text"
-                id="lastName"
-                name="lastName"
-                value={formData.lastName}
+                id="surname"
+                name="surname"
+                value={formData.surname}
                 onChange={handleChangeUserData}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Soyadınızı girin"
@@ -147,16 +169,34 @@ const Page = () => {
             </div>
             <div className="mb-5">
               <label
-                htmlFor="tc"
+                htmlFor="surname"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Kullanıcı Adı
+              </label>
+              <input
+                type="text"
+                id="userName"
+                name="userName"
+                value={formData.username}
+                onChange={handleChangeUserData}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Soyadınızı girin"
+                required
+              />
+            </div>
+            <div className="mb-5">
+              <label
+                htmlFor="identificationNumber"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 TC Kimlik Numarası
               </label>
               <input
                 type="text"
-                id="tc"
-                name="tc"
-                value={formData.tc}
+                id="identificationNumber"
+                name="identificationNumber"
+                value={formData.identificationNumber}
                 onChange={handleChangeUserData}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="TC Kimlik Numaranızı girin"
