@@ -67,9 +67,9 @@ const Page = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: name === "birthDate" ? new Date(value) : value,
     }));
   };
 
