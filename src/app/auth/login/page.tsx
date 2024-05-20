@@ -22,7 +22,10 @@ function Login() {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (
+      localStorage.getItem("token") !== "null" &&
+      localStorage.getItem("id") !== "null"
+    ) {
       router.push("/");
     }
   }, []);

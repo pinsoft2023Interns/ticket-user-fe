@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import api from "../../../../intercepter";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface UserData {
   name: string;
@@ -16,6 +17,7 @@ interface UserData {
 }
 
 const Page = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
@@ -59,8 +61,14 @@ const Page = () => {
         console.error("Error fetching user data:", error);
       }
     };
-
-    fetchUserData();
+    if (
+      localStorage.getItem("token") === "null" ||
+      localStorage.getItem("id") === "null"
+    ) {
+      router.push("/auth/login");
+    } else {
+      fetchUserData();
+    }
   }, []);
 
   const handleChangeUserData = (

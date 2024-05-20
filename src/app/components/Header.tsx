@@ -30,15 +30,18 @@ export default function Header() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   useEffect(() => {
-    if (localStorage.getItem("token") === null) {
+    if (
+      localStorage.getItem("token") === "null" ||
+      localStorage.getItem("id") === "null"
+    ) {
       setIsAuthenticated(false);
     } else {
       setIsAuthenticated(true);
+      const userInfo = api.get(`/user_account/${localStorage?.getItem("id")}`);
+      userInfo.then((response) => {
+        setUser(response.data);
+      });
     }
-    const userInfo = api.get(`/user_account/${localStorage?.getItem("id")}`);
-    userInfo.then((response) => {
-      setUser(response.data);
-    });
   }, []);
 
   const handleLogout = () => {

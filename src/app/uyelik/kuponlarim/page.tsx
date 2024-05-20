@@ -1,14 +1,23 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import api from "../../../../intercepter";
+import { useRouter } from "next/navigation";
 
 function MyCoupons() {
+  const router = useRouter();
   const [coupons, setCoupons] = useState([]);
   useEffect(() => {
-    const userInfo = api.get(`/user_account/${localStorage?.getItem("id")}`);
-    userInfo.then((response) => {
-      setCoupons(response.data.coupons);
-    });
+    if (
+      localStorage.getItem("token") === "null" ||
+      localStorage.getItem("id") === "null"
+    ) {
+      router.push("/auth/login");
+    } else {
+      const userInfo = api.get(`/user_account/${localStorage?.getItem("id")}`);
+      userInfo.then((response) => {
+        setCoupons(response.data.coupons);
+      });
+    }
   }, []);
   console.log(coupons);
   return (
