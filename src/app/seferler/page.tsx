@@ -207,8 +207,6 @@ function TicketScreen() {
               </tbody>
             </table>
           </div>
-          <input onChange={(e) => setDeneme(e.target.value)} />
-          <button onClick={handleChange}>Gönder</button>
         </div>
       </div>
       {isPopupActive && (

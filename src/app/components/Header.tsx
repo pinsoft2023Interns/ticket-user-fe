@@ -17,7 +17,7 @@ interface NavigationItem {
 }
 
 const navigation = [
-  { name: "Anasayfa", href: "#" },
+  { name: "Anasayfa", href: "/" },
   { name: "Seyahat Sorgula", href: "#" },
   { name: "Yardım ve SSS", href: "/yardim-ve-sss" },
   { name: "Hakkımızda", href: "/hakkimizda" },
