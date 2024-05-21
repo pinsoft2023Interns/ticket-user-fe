@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { WriteStream } from "tty";
 import SeatMap from "../components/SeatMap";
-import ExpedetionPopup from "./expedetion popup/page";
+import ExpedetionPopup from "./expedetion_popup/page";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
