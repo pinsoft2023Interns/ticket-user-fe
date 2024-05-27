@@ -26,7 +26,7 @@ function MyTravels() {
       to: "Keşan (Keşan Otogarı)",
       passenger: "GÖKTUĞ YUMUŞAK",
       pnr: "1234567",
-      seat: "1",
+      seat: "1",  
       price: "650,00 TL",
     },
     {
@@ -103,31 +103,10 @@ function MyTravels() {
                   KOLTUK NO: {ticket.seat}
                 </p>
                 <p className="text-sm text-gray-500">TUTAR: {ticket.price}</p>
-                <div className="flex justify-center mt-4">
-                  <button
-                    type="button"
-                    className="bg-blue-500 text-white  px-4 py-2 rounded-lg mr-2 "
-                  >
-                    AÇIĞA AL
-                  </button>
-                  <button
-                    type="button"
-                    className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2"
-                  >
-                    DEĞİŞTİR
-                  </button>
-                  <button
-                    type="button"
-                    className="bg-red-500 text-white px-4 py-2 rounded-lg"
-                  >
-                    İPTAL ET
-                  </button>
-                </div>
               </div>
               <hr className="my-4" />
               <div className="flex text-center ">
-                <p className="text-lg font-semibold">Toplam Tutar:</p>
-                <p className="text-lg font-semibold">{ticket.price}</p>
+                <p className="text-lg font-semibold">Toplam Tutar: {ticket.price}</p>
               </div>
               <div className="flex text-center mt-4  justify-between ">
                 <button className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2">

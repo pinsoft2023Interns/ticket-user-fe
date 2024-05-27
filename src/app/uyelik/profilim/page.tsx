@@ -368,37 +368,6 @@ const Page = () => {
                 Şifremi Güncelle
               </button>
             </div>
-            <div>
-              <h2 className="text-lg font-semibold mt-10">Duyuru Tercihleri</h2>
-              <div className="mb-5">
-                <label
-                  htmlFor="emailNotification"
-                  className="flex items-center mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  <input
-                    type="checkbox"
-                    id="emailNotification"
-                    name="emailNotification"
-                    className="mr-2"
-                  />
-                  E-Mail Bildirimleri
-                </label>
-              </div>
-              <div className="mb-5">
-                <label
-                  htmlFor="smsNotification"
-                  className="flex items-center mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  <input
-                    type="checkbox"
-                    id="smsNotification"
-                    name="smsNotification"
-                    className="mr-2"
-                  />
-                  SMS Bildirimleri
-                </label>
-              </div>
-            </div>
           </div>
         </form>
       </div>
