@@ -41,7 +41,7 @@ function Login() {
       toast.success("Başarıyla Giriş Yaptınız");
       router.push("/");
     } catch (error) {
-      toast.error("Hatalı Giriş Yaptınız");
+      toast.error("Hatalı Kullanıcı Adı Veya Şifre");
     }
   };
   return (
