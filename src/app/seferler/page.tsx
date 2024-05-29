@@ -6,7 +6,6 @@ import ExpedetionPopup from "./expedetion_popup/page";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { setInputValue } from "../../store/slice";
 
 function TicketScreen() {
   const router = useRouter();
@@ -15,10 +14,6 @@ function TicketScreen() {
   const [selectedSeatData, setSelectedSeatData] = useState(0);
   const [showSeatMap, setShowSeatMap] = useState(false);
   const [isPopupActive, setIsPopupActive] = useState(false);
-
-  const [deneme, setDeneme] = useState("");
-
-  const dispatch = useDispatch();
 
   const seatInfo = [
     { seatLength: 38, busType: "2+1" },
@@ -83,13 +78,6 @@ function TicketScreen() {
       window.removeEventListener("keydown", handleEscKey);
     };
   }, []);
-
-  const handleChange = () => {
-    console.log("deneme", deneme);
-
-    dispatch(setInputValue(deneme));
-    router.push("uyelik/rezervasyonlarim");
-  };
 
   return (
     <>
