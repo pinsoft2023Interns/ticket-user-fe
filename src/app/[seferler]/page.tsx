@@ -5,7 +5,7 @@ import SeatMap from "../components/SeatMap";
 import ExpedetionPopup from "./expedetion_popup/page";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import axios from "axios";
 
 function TicketScreen() {
   const router = useRouter();
@@ -15,6 +15,36 @@ function TicketScreen() {
   const [showSeatMap, setShowSeatMap] = useState(false);
   const [isPopupActive, setIsPopupActive] = useState(false);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const search = window.location.search;
+      const urlParams = new URLSearchParams(search);
+      const neredenParam = urlParams.get("nereden");
+      const nereyeParam = urlParams.get("nereye");
+      const tarihParam = urlParams.get("tarih");
+
+      if (neredenParam && nereyeParam && tarihParam) {
+        const stations = `${neredenParam},${nereyeParam}`;
+        const departureDate = tarihParam;
+        axios
+          .get(
+            "https://ticket-web-be-6ogu.onrender.com/busNavStation/findByStationIdAndDepartureDate",
+            {
+              params: {
+                stations: stations,
+                departureDate: departureDate,
+              },
+            }
+          )
+          .then((response) => {
+            console.log("Data retrieved successfully:", response.data);
+          })
+          .catch((error) => {
+            console.error("Error retrieving data:", error);
+          });
+      }
+    }
+  }, []);
   const seatInfo = [
     { seatLength: 38, busType: "2+1" },
     //   { seatLength: 48, busType: "2+2" },
@@ -26,12 +56,6 @@ function TicketScreen() {
     setSelectedSeatData(ticket.id);
     setShowSeatMap(true);
   };
-
-  useEffect(() => {
-    console.log("selectedSeatData", selectedSeatData);
-  }, [selectedSeatData]);
-
-  const busSeats = Array.from({ length: 45 }, (_, index) => index + 1);
 
   const ticketData = [
     {

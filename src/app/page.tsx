@@ -241,14 +241,14 @@ export default function Example() {
           </div>
           {/* Send button */}
           <Link
-            href={
-              "/search?from=" +
-              selectedFrom?.id +
-              "&to=" +
-              selectedTo?.id +
-              "&date=" +
-              value.startDate
-            }
+            href={{
+              pathname: "/seferler",
+              query: {
+                nereden: selectedFrom?.id,
+                nereye: selectedTo?.id,
+                tarih: value.startDate,
+              },
+            }}
             className="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 flex justify-center text-center items-center focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none mt-6 lg:col-span-3 col-span-6"
           >
             Otobüs Bileti Bul
