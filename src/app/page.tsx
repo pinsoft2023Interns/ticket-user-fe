@@ -1,65 +1,26 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Combobox, Transition } from "@headlessui/react";
-import {
-  CheckIcon,
-  ChevronUpDownIcon,
-  ChevronRightIcon,
-} from "@heroicons/react/20/solid";
-import {
-  ArrowPathIcon,
-  CloudArrowUpIcon,
-  FingerPrintIcon,
-  LockClosedIcon,
-} from "@heroicons/react/24/outline";
+import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
+
 import Datepicker from "react-tailwindcss-datepicker";
-
-const citys = [
-  { id: 1, name: "İstanbul" },
-  { id: 2, name: "Ankara" },
-  { id: 3, name: "Tekirdağ" },
-  { id: 4, name: "İzmir" },
-  { id: 5, name: "Eskişehir" },
-  { id: 6, name: "Afyonkarahisar " },
-  { id: 7, name: "Bursa" },
-];
-
-const features = [
-  {
-    name: "Push to deploy",
-    description:
-      "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
-    icon: CloudArrowUpIcon,
-  },
-  {
-    name: "SSL certificates",
-    description:
-      "Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Sem sodales gravida quam turpis enim lacus amet.",
-    icon: LockClosedIcon,
-  },
-  {
-    name: "Simple queues",
-    description:
-      "Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.",
-    icon: ArrowPathIcon,
-  },
-  {
-    name: "Advanced security",
-    description:
-      "Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.",
-    icon: FingerPrintIcon,
-  },
-];
-
+import axios from "axios";
+import Link from "next/link";
+type City = {
+  id: number;
+  name: string;
+};
 export default function Example() {
-  const [selectedFrom, setSelectedFrom] = useState(citys[0]);
-  const [selectedTo, setSelectedTo] = useState(citys[1]);
+  const [citys, setCitys] = useState<City[]>([]);
+  const [selectedFrom, setSelectedFrom] = useState<City | null>(null);
+  const [selectedTo, setSelectedTo] = useState<City | null>(null);
   const [query, setQuery] = useState("");
   const [value, setValue] = useState({
     startDate: null,
     endDate: null,
   });
+
   const filteredFrom =
     query === ""
       ? citys
@@ -69,6 +30,7 @@ export default function Example() {
             .replace(/\s+/g, "")
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
+
   const filteredTo =
     query === ""
       ? citys
@@ -80,9 +42,27 @@ export default function Example() {
         );
 
   const handleValueChange = (newValue) => {
-    console.log("newValue:", newValue);
     setValue(newValue);
   };
+
+  useEffect(() => {
+    axios
+      .get("https://turkiyeapi.dev/api/v1/provinces")
+      .then((res) => {
+        const cityData = res.data.data.map((city) => ({
+          id: city.id,
+          name: city.name,
+        }));
+        setCitys(cityData);
+        if (cityData.length > 0) {
+          setSelectedFrom(cityData[0]);
+          setSelectedTo(cityData[1]);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
 
   const changeCity = () => {
     const temp = selectedFrom;
@@ -102,11 +82,12 @@ export default function Example() {
                   <Combobox.Label className="text-white">
                     Nereden
                   </Combobox.Label>
-
                   <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
                     <Combobox.Input
                       className="w-full border-none py-4 pl-3 pr-10 text-lg leading-5 text-gray-900 focus:ring-0 h-full"
-                      displayValue={(city: { name: string }) => city.name}
+                      displayValue={(city: { name: string }) =>
+                        city?.name || ""
+                      }
                       onChange={(event) => setQuery(event.target.value)}
                     />
                     <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -187,11 +168,12 @@ export default function Example() {
               <Combobox value={selectedTo} onChange={setSelectedTo}>
                 <div className="relative">
                   <Combobox.Label className="text-white">Nereye</Combobox.Label>
-
                   <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
                     <Combobox.Input
                       className="w-full border-none py-4 pl-3 pr-10 text-lg leading-5 text-gray-900 focus:ring-0 h-full"
-                      displayValue={(city: { name: string }) => city.name}
+                      displayValue={(city: { name: string }) =>
+                        city?.name || ""
+                      }
                       onChange={(event) => setQuery(event.target.value)}
                     />
                     <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -230,7 +212,7 @@ export default function Example() {
                               <>
                                 <span
                                   className={`block truncate ${
-                                    selectedFrom ? "font-medium" : "font-normal"
+                                    selectedTo ? "font-medium" : "font-normal"
                                   }`}
                                 >
                                   {city.name}
@@ -258,12 +240,19 @@ export default function Example() {
             />
           </div>
           {/* Send button */}
-          <button
-            className="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none mt-6 lg:col-span-3 col-span-6"
-            type="button"
+          <Link
+            href={
+              "/search?from=" +
+              selectedFrom?.id +
+              "&to=" +
+              selectedTo?.id +
+              "&date=" +
+              value.startDate
+            }
+            className="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 flex justify-center text-center items-center focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none mt-6 lg:col-span-3 col-span-6"
           >
             Otobüs Bileti Bul
-          </button>
+          </Link>
         </div>
       </div>
       <div className="bg-white">
