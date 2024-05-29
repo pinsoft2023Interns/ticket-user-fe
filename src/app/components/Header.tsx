@@ -34,7 +34,6 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-
   useEffect(() => {
     if (
       localStorage.getItem("token") === "null" ||
