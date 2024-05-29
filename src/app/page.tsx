@@ -92,7 +92,7 @@ export default function Example() {
 
   return (
     <>
-      <div className="flex justify-center sm:px-12 px-4 bg-[url('https://images.pexels.com/photos/2955704/pexels-photo-2955704.jpeg?auto=compress&cs=tinysrgb&w=600')] bg-cover">
+      <div className="flex justify-center sm:px-12 px-4 bg-[url('https://images.pexels.com/photos/315938/pexels-photo-315938.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')] bg-cover">
         <div className="grid grid-cols-12 gap-3 max-w-7xl justify-center py-56">
           <div className="flex lg:col-span-6 col-span-12">
             {/* combobox */}
