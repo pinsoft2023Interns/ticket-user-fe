@@ -2,13 +2,8 @@
 import React, { useEffect } from "react";
 import { FaBusSimple } from "react-icons/fa6";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
 
 function MyReservations() {
-  const getInputValue = useSelector(
-    (state: RootState) => state.counterReducer.inputValue
-  );
-
   return (
     <div className="xl:ml-12 flex flex-col">
       <h1 className="text-3xl mx-auto lg:mx-0">Rezervasyonlarım</h1>
@@ -36,9 +31,7 @@ function MyReservations() {
             </div>
           </div>
           <div className="flex gap-2">
-            <p>
-              Bu bilgi ticketScreen sayfasından gelmektedir. {getInputValue}
-            </p>
+            <p>Bu bilgi ticketScreen sayfasından gelmektedir.</p>
             <button className="text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none lg:col-span-3 col-span-6">
               Açığa Al
             </button>
