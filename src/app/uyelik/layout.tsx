@@ -1,13 +1,13 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
-const navigation = [
+const navigation = (handleLogout) => [
   { name: "Seyahatlerim", href: "/uyelik/seyahatlerim" },
   { name: "Rezervasyonlarım", href: "/uyelik/rezervasyonlarim" },
   { name: "Kuponlarım", href: "/uyelik/kuponlarim" },
   { name: "Profilim", href: "/uyelik/profilim" },
-  { name: "Çıkış Yap", href: "/auth/login" },
+  { name: "Çıkış Yap", href: "/auth/login", onClick: handleLogout },
 ];
 
 function classNames(...classes) {
@@ -16,16 +16,25 @@ function classNames(...classes) {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("id");
+    router.push("/auth/login");
+    window.location.reload();
+  };
 
   return (
-    <div className="grid grid-cols-12 mx-auto max-w-7xl justify-between gap-x-6  lg:px-8">
-      <div className=" flex-none lg:col-span-2 hidden lg:flex col-span-12">
+    <div className="grid grid-cols-12 mx-auto max-w-7xl justify-between gap-x-6 lg:px-8">
+      <div className="flex-none lg:col-span-2 hidden lg:flex col-span-12">
         <nav className="flex flex-1 flex-col" aria-label="Sidebar">
           <ul role="list" className="-mx-2 space-y-1">
-            {navigation.map((item) => (
+            {navigation(handleLogout).map((item) => (
               <li key={item.name}>
                 <Link
                   href={item.href}
+                  onClick={item.onClick}
                   className={classNames(
                     pathname === item.href
                       ? "bg-gray-50 text-indigo-600"
@@ -40,7 +49,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </ul>
         </nav>
       </div>
-      <div className="flex-grow  md:overflow-y-auto lg:col-span-10 col-span-12">
+      <div className="flex-grow md:overflow-y-auto lg:col-span-10 col-span-12">
         {children}
       </div>
     </div>

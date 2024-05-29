@@ -39,6 +39,7 @@ function Login() {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("id", response.data.userId);
       toast.success("Başarıyla Giriş Yaptınız");
+      window.location.reload();
       router.push("/");
     } catch (error) {
       toast.error("Hatalı Kullanıcı Adı Veya Şifre");
