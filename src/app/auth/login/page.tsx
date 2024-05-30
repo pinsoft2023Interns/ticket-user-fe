@@ -4,16 +4,16 @@ import api from "../../../../intercepter";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { setInputValue } from "../../../store/slice";
-import { useDispatch } from "react-redux";
 import { RootState } from "../../../store/store";
 
 function Login() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const inputValue = useSelector(
-    (state: RootState) => state.counter.inputValue
+
+  const getInputValue = useSelector(
+    (state: RootState) => state.counter?.inputValue
   );
 
   useEffect(() => {
