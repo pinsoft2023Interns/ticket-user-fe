@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import PrivateRoute from "../auth/privateRoute";
 
 const navigation = (handleLogout) => [
   { name: "Seyahatlerim", href: "/uyelik/seyahatlerim" },
@@ -50,7 +51,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </nav>
       </div>
       <div className="flex-grow md:overflow-y-auto lg:col-span-10 col-span-12">
-        {children}
+        <PrivateRoute>{children}</PrivateRoute>
       </div>
     </div>
   );
