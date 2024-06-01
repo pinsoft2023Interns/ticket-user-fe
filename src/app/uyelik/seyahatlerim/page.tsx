@@ -75,7 +75,7 @@ function MyTravels() {
                 <div className="flex gap-6">
                   <p className="text-sm text-gray-500">{ticket.bnsIds}</p>
                   <p className="text-sm text-gray-500">{ticket.pnrNumber}</p>
-                  <p className="text-sm text-gray-500">{ticket.bnsIds}</p>
+                  {/* <p className="text-sm text-gray-500">{ticket.bnsIds}</p>  */}
                 </div>
               </div>
               <hr className="my-4" />
@@ -92,6 +92,26 @@ function MyTravels() {
                   KOLTUK NO: {ticket.seatInfo}
                 </p>
                 <p className="text-sm text-gray-500">TUTAR: {ticket.price} TL</p>
+                <div className="flex justify-center mt-4">
+                  <button
+                    type="button"
+                    className="bg-blue-500 text-white  px-4 py-2 rounded-lg mr-2 "
+                  >
+                    AÇIĞA AL
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2"
+                  >
+                    DEĞİŞTİR
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-red-500 text-white px-4 py-2 rounded-lg"
+                  >
+                    İPTAL ET
+                  </button>
+                </div>
               </div>
               <hr className="my-4" />
               <div className="flex text-center ">
