@@ -28,10 +28,8 @@ function Login() {
 
   useEffect(() => {
     if (
-      localStorage.getItem("id") === "null" &&
-      !localStorage.getItem("id") &&
-      sessionStorage.getItem("id") === "null" &&
-      !sessionStorage.getItem("id")
+      localStorage.getItem("id") !== "null" &&
+      sessionStorage.getItem("id") !== "null"
     ) {
       router.push("/");
     }
