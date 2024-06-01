@@ -34,28 +34,31 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+
   useEffect(() => {
-    if (
-      localStorage.getItem("token") === "null" ||
-      localStorage.getItem("id") === "null" ||
-      !localStorage.getItem("token") ||
-      !localStorage.getItem("id")
-    ) {
-      setIsAuthenticated(false);
-    } else {
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+    const id = localStorage.getItem("id") || sessionStorage.getItem("id");
+
+    if (token && id) {
       setIsAuthenticated(true);
-      const userInfo = api.get(`/user_account/${localStorage?.getItem("id")}`);
-      userInfo.then((response) => {
+      api.get(`/user_account/${id}`).then((response) => {
         setUser(response.data);
       });
+    } else {
+      setIsAuthenticated(false);
     }
   }, []);
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("id");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("id");
     setIsAuthenticated(false);
     router.push("/auth/login");
   };
+
   return (
     <header className="bg-white">
       <nav
@@ -100,7 +103,6 @@ export default function Header() {
                   <Link href="/uyelik/profilim">Profilim</Link>
                 </Dropdown.Item>
                 <Dropdown.Divider />
-
                 <Dropdown.Item
                   className="text-lg"
                   icon={HiLogout}
@@ -167,7 +169,6 @@ export default function Header() {
                 </Link>
               </>
             )}
-
             <button
               type="button"
               className="-m-2.5 rounded-md p-2.5 text-gray-700"
@@ -219,7 +220,6 @@ export default function Header() {
                 size={"1.5em"}
                 className="text-indigo-500 hover:text-indigo-700"
               />
-
               <span className="sr-only">Seyahatlerim</span>
             </Link>
 
@@ -232,8 +232,7 @@ export default function Header() {
                 size={"1.5em"}
                 className="text-indigo-500 hover:text-indigo-700"
               />
-
-              <span className="sr-only">rezervasyonlarim</span>
+              <span className="sr-only">Rezervasyonlarım</span>
             </Link>
 
             <Link
@@ -245,8 +244,7 @@ export default function Header() {
                 size={"1.5em"}
                 className="text-indigo-500 hover:text-indigo-700"
               />
-
-              <span className="sr-only">kuponlarim</span>
+              <span className="sr-only">Kuponlarım</span>
             </Link>
 
             <Link
@@ -258,8 +256,7 @@ export default function Header() {
                 size={"1.5em"}
                 className="text-indigo-500 hover:text-indigo-700"
               />
-
-              <span className="sr-only">profilim</span>
+              <span className="sr-only">Profilim</span>
             </Link>
 
             <Link
@@ -272,7 +269,6 @@ export default function Header() {
                 size={"1.5em"}
                 className="text-indigo-500 hover:text-indigo-700"
               />
-
               <span className="sr-only">Çıkış</span>
             </Link>
           </div>

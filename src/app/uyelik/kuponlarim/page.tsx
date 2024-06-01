@@ -8,10 +8,10 @@ function MyCoupons() {
   const [coupons, setCoupons] = useState([]);
   useEffect(() => {
     if (
-      localStorage.getItem("token") === "null" ||
-      localStorage.getItem("id") === "null" ||
-      !localStorage.getItem("token") ||
-      !localStorage.getItem("id")
+      localStorage.getItem("id") === "null" &&
+      !localStorage.getItem("id") &&
+      sessionStorage.getItem("id") === "null" &&
+      !sessionStorage.getItem("id")
     ) {
       router.push("/auth/login");
     } else {

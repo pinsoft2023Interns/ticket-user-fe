@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const navigation = (handleLogout) => [
   { name: "Seyahatlerim", href: "/uyelik/seyahatlerim" },
@@ -21,10 +22,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("id");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("id");
     router.push("/auth/login");
     window.location.reload();
   };
 
+  useEffect(() => {
+    if (
+      localStorage.getItem("id") === "null" &&
+      !localStorage.getItem("id") &&
+      sessionStorage.getItem("id") === "null" &&
+      !sessionStorage.getItem("id")
+    ) {
+      router.push("/auth/login");
+    }
+  }, []);
   return (
     <div className="grid grid-cols-12 mx-auto max-w-7xl justify-between gap-x-6 lg:px-8">
       <div className="flex-none lg:col-span-2 hidden lg:flex col-span-12">

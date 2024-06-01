@@ -12,6 +12,7 @@ function Login() {
     username: "",
     password: "",
   });
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,12 +22,16 @@ function Login() {
     }));
   };
 
+  const handleCheckboxChange = (e) => {
+    setRememberMe(e.target.checked);
+  };
+
   useEffect(() => {
     if (
-      localStorage.getItem("token") !== "null" &&
-      localStorage.getItem("id") !== "null" &&
-      localStorage.getItem("token") &&
-      localStorage.getItem("id")
+      localStorage.getItem("id") === "null" &&
+      !localStorage.getItem("id") &&
+      sessionStorage.getItem("id") === "null" &&
+      !sessionStorage.getItem("id")
     ) {
       router.push("/");
     }
@@ -36,15 +41,16 @@ function Login() {
     e.preventDefault();
     try {
       const response = await api.post("/authenticate", formData);
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("id", response.data.userId);
+      const storage = rememberMe ? localStorage : sessionStorage;
+      storage.setItem("token", response.data.token);
+      storage.setItem("id", response.data.userId);
       toast.success("Başarıyla Giriş Yaptınız");
-      window.location.reload();
       router.push("/");
     } catch (error) {
       toast.error("Hatalı Kullanıcı Adı Veya Şifre");
     }
   };
+
   return (
     <section className="bg-[url('https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-no-repeat bg-cover bg-center bg-gray-700 bg-blend-multiply bg-opacity-60">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen pt:mt-0">
@@ -100,7 +106,21 @@ function Login() {
                   required
                 />
               </div>
-
+              <div className="flex items-center">
+                <input
+                  id="rememberMe"
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={handleCheckboxChange}
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  htmlFor="rememberMe"
+                  className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  Beni hatırla
+                </label>
+              </div>
               <button
                 type="submit"
                 onClick={handleSubmit}
@@ -113,8 +133,7 @@ function Login() {
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   href="/auth/register"
                 >
-                  {" "}
-                  Hesabınız yok mu ?
+                  Hesabınız yok mu?
                 </Link>
               </p>
             </form>

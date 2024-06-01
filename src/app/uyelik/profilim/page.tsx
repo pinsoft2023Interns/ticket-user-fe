@@ -39,11 +39,16 @@ const Page = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
 
   useEffect(() => {
+    const userId = localStorage.getItem("id") || sessionStorage.getItem("id");
+
+    if (!userId || userId === "null") {
+      router.push("/auth/login");
+      return;
+    }
+
     const fetchUserData = async () => {
       try {
-        const response = await api.get(
-          `/user_account/${localStorage.getItem("id")}`
-        );
+        const response = await api.get(`/user_account/${userId}`);
         const userData: UserData = response.data;
         setUserData(userData);
         setFormData({
@@ -61,16 +66,8 @@ const Page = () => {
         console.error("Error fetching user data:", error);
       }
     };
-    if (
-      localStorage.getItem("token") === "null" ||
-      localStorage.getItem("id") === "null" ||
-      !localStorage.getItem("token") ||
-      !localStorage.getItem("id")
-    ) {
-      router.push("/auth/login");
-    } else {
-      fetchUserData();
-    }
+
+    fetchUserData();
   }, []);
 
   const handleChangeUserData = (
@@ -85,20 +82,18 @@ const Page = () => {
 
   const updateData = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const userId = localStorage.getItem("id") || sessionStorage.getItem("id");
     try {
-      const response = await api.put(
-        `/user_account/${localStorage.getItem("id")}`,
-        {
-          id: localStorage.getItem("id"),
-          ...formData,
-        }
-      );
+      const response = await api.put(`/user_account/${userId}`, {
+        id: userId,
+        ...formData,
+      });
 
       if (response.status === 200) {
         toast.success("Bilgileriniz başarıyla güncellendi");
       }
     } catch (error) {
-      console.error("Error updating password:", error);
+      console.error("Error updating user data:", error);
       toast.error("Bilgileriniz güncellenirken bir hata oluştu!");
     }
   };
@@ -117,14 +112,12 @@ const Page = () => {
       toast.error("Eski şifrenizi yanlış girdiniz");
       return;
     }
+    const userId = localStorage.getItem("id") || sessionStorage.getItem("id");
     try {
-      const response = await api.put(
-        `/user_account/${localStorage.getItem("id")}/password`,
-        {
-          id: localStorage.getItem("id"),
-          password: formPassword.newPassword,
-        }
-      );
+      const response = await api.put(`/user_account/${userId}/password`, {
+        id: userId,
+        password: formPassword.newPassword,
+      });
 
       if (response.status === 200) {
         toast.success("Şifreniz başarıyla değiştirildi");
@@ -179,19 +172,19 @@ const Page = () => {
             </div>
             <div className="mb-5">
               <label
-                htmlFor="surname"
+                htmlFor="username"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Kullanıcı Adı
               </label>
               <input
                 type="text"
-                id="userName"
-                name="userName"
+                id="username"
+                name="username"
                 value={formData.username}
                 onChange={handleChangeUserData}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Soyadınızı girin"
+                placeholder="Kullanıcı Adınızı girin"
                 required
               />
             </div>
