@@ -60,31 +60,10 @@ function TicketScreen() {
   const ticketData = [
     {
       id: 1,
-      companyLogo: "Firma Logosu 1",
+      companyName: "Firma isim 1",
       departureTime: "Sefer Saati 1",
       seatArrangement: "Otobüsteki koltuk düzeni 2+1",
       price: "$50",
-    },
-    {
-      id: 2,
-      companyLogo: "Firma Logosu 2",
-      departureTime: "Sefer Saati 2",
-      seatArrangement: "Otobüsteki koltuk düzeni 2+2",
-      price: "$40",
-    },
-    {
-      id: 3,
-      companyLogo: "Firma Logosu 3",
-      departureTime: "Sefer Saati 3",
-      seatArrangement: "Otobüsteki koltuk düzeni 2+1",
-      price: "$100",
-    },
-    {
-      id: 4,
-      companyLogo: "Firma Logosu 4",
-      departureTime: "Sefer Saati 4",
-      seatArrangement: "Otobüsteki koltuk düzeni 2+1",
-      price: "$200",
     },
   ];
 
@@ -135,7 +114,7 @@ function TicketScreen() {
                       onClick={() => handleSeatSelection(ticket)}
                       className=" h-16 cursor-pointer gap-14 text-base  border-b bg-white"
                     >
-                      <td className="px-6 py-4">{ticket.companyLogo}</td>
+                      <td className="px-6 py-4">{ticket.companyName}</td>
                       <td className="px-6 py-4">{ticket.departureTime}</td>
                       <td className="px-6 py-4">{ticket.seatArrangement}</td>
                       <td className="px-6 py-4">{ticket.price}</td>
