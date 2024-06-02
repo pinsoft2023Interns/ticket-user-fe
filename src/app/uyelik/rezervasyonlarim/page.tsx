@@ -163,21 +163,43 @@ function MyReservations() {
   };
 
   const handleAcigaAl = async () => {
-    if (!selectedTicket) return;
-    try {
-      await axios.put(
-        `https://ticket-web-be-6ogu.onrender.com/ticket/cancel/${selectedTicket.id}`,
-        {
-          ...selectedTicket,
-          canceled: true,
-        }
-      );
-      setTickets(tickets.filter((ticket) => ticket.id !== selectedTicket.id));
-      handleModalClose();
-    } catch (error) {
-      console.error("Bileti açığa alma sırasında hata oluştu:", error);
-    }
-  };
+  if (!selectedTicket) return;
+  try {
+    await axios.put(
+      `https://ticket-web-be-6ogu.onrender.com/ticket/cancel/${selectedTicket.id}`,
+      {
+        id: selectedTicket.id,
+        canceled: true,
+      }
+    );
+    const updatedResponse = await axios.get(
+      "https://ticket-web-be-6ogu.onrender.com/busnavigation"
+    );
+    const updatedData: BusNav[] = updatedResponse.data;
+    const updatedTicketsWithDepartureDates = updatedData.reduce(
+      (acc: Ticket[], busNav: BusNav) => {
+        const departureDate =
+          busNav.busNavStation.length > 0
+            ? busNav.busNavStation[0].departureDate
+            : "";
+        const ticketsWithDates = busNav.tickets.map((ticket: Ticket) => ({
+          ...ticket,
+          departureDate: departureDate || "",
+          busNavStations: busNav.busNavStation,
+        }));
+        return [...acc, ...ticketsWithDates];
+      },
+      []
+    );
+    setTickets(updatedTicketsWithDepartureDates);
+    handleModalClose();
+  } catch (error) {
+    console.error("Bileti açığa alma sırasında hata oluştu:", error);
+  }
+};
+
+  
+  
 
   return (
     <div className="xl:ml-12 flex flex-col">
