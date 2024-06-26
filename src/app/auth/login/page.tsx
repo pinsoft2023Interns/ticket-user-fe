@@ -31,7 +31,7 @@ function Login() {
       localStorage.getItem("id") !== "null" &&
       sessionStorage.getItem("id") !== "null"
     ) {
-      router.push("/");
+      // router.push("/");
     }
   }, []);
 
@@ -43,7 +43,7 @@ function Login() {
       storage.setItem("token", response.data.token);
       storage.setItem("id", response.data.userId);
       toast.success("Başarıyla Giriş Yaptınız");
-      router.push("/");
+      // router.push("/");
     } catch (error) {
       toast.error("Hatalı Kullanıcı Adı Veya Şifre");
     }

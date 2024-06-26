@@ -6,6 +6,7 @@ import ExpedetionPopup from "./expedetion_popup/page";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 function TicketScreen() {
   const router = useRouter();
@@ -14,30 +15,30 @@ function TicketScreen() {
   const [selectedSeatData, setSelectedSeatData] = useState(0);
   const [showSeatMap, setShowSeatMap] = useState(false);
   const [isPopupActive, setIsPopupActive] = useState(false);
-
+  const [ticketsData, setTicketsData] = useState([]);
+  const search = window.location.search;
+  const urlParams = new URLSearchParams(search);
+  const neredenParam = urlParams.get("nereden");
+  const nereyeParam = urlParams.get("nereye");
+  const tarihParam = urlParams.get("tarih");
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const search = window.location.search;
-      const urlParams = new URLSearchParams(search);
-      const neredenParam = urlParams.get("nereden");
-      const nereyeParam = urlParams.get("nereye");
-      const tarihParam = urlParams.get("tarih");
-
       if (neredenParam && nereyeParam && tarihParam) {
-        const stations = `${neredenParam},${nereyeParam}`;
         const departureDate = tarihParam;
         axios
           .get(
             "https://ticket-web-be-6ogu.onrender.com/busNavStation/findByStationIdAndDepartureDate",
             {
               params: {
-                stations: stations,
+                start: neredenParam,
+                end: nereyeParam,
                 departureDate: departureDate,
               },
             }
           )
           .then((response) => {
             console.log("Data retrieved successfully:", response.data);
+            setTicketsData(response.data);
           })
           .catch((error) => {
             console.error("Error retrieving data:", error);
@@ -45,11 +46,7 @@ function TicketScreen() {
       }
     }
   }, []);
-  const seatInfo = [
-    { seatLength: 38, busType: "2+1" },
-    //   { seatLength: 48, busType: "2+2" },
-    //   { seatLength: 41, busType: "2+1" },
-  ];
+  const seatInfo = [{ seatLength: 38, busType: "2+1" }];
 
   const handleSeatSelection = (ticket) => {
     setSelectedSeat(true);
@@ -81,11 +78,16 @@ function TicketScreen() {
       window.removeEventListener("keydown", handleEscKey);
     };
   }, []);
-
   return (
     <>
       <div>
-        <div className="relative mx-auto flex max-w-7xl items-center justify-center gap-x-6 py-6 lg:py-8 ">
+        <div className="relative mx-auto flex flex-col max-w-7xl items-center justify-center gap-6 py-6 lg:py-8 ">
+          <div className="flex gap-8 items-center  px-8 py-4 rounded-md border-2 ">
+            <span className="text-lg">{ticketsData?.price?.arrName}</span>
+            <FaArrowRightLong />
+            <span className="text-lg">{ticketsData?.price?.deppName}</span>|
+            <span>{tarihParam}</span>
+          </div>
           <div className="flex w-full rounded-xl border  m-2 overflow-auto">
             <table className="text-sm  text-left rtl:text-right text-gray-500 w-full">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
@@ -117,7 +119,7 @@ function TicketScreen() {
                       <td className="px-6 py-4">{ticket.companyName}</td>
                       <td className="px-6 py-4">{ticket.departureTime}</td>
                       <td className="px-6 py-4">{ticket.seatArrangement}</td>
-                      <td className="px-6 py-4">{ticket.price}</td>
+                      <td className="px-6 py-4">{ticketsData?.price?.price}</td>
                       <td className="px-6 py-4">
                         <button
                           onClick={() => handleSeatSelection(ticket)}
