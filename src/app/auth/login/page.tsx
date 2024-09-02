@@ -31,7 +31,7 @@ function Login() {
       localStorage.getItem("id") !== "null" &&
       sessionStorage.getItem("id") !== "null"
     ) {
-      // router.push("/");
+      router.push("/seferler");
     }
   }, []);
 
