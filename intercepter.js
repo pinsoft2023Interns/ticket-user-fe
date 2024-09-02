@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://ticket-web-be-6ogu.onrender.com/",
+  baseURL: "https://ticket-web-be-j7fg.onrender.com/",
 });
 
 api.interceptors.request.use(

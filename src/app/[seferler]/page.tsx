@@ -27,7 +27,7 @@ function TicketScreen() {
         const departureDate = tarihParam;
         axios
           .get(
-            "https://ticket-web-be-6ogu.onrender.com/busNavStation/findByStationIdAndDepartureDate",
+            "https://ticket-web-be-j7fg.onrender.com/busNavStation/findByStationIdAndDepartureDate",
             {
               params: {
                 start: neredenParam,
